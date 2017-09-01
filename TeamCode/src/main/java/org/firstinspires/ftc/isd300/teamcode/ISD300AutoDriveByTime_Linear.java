@@ -30,15 +30,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.isd300.ind.arista;
+package org.firstinspires.ftc.isd300.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -61,15 +57,18 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Arista Auto Driver", group="Pushbot")
-public class AristaAutoDrive extends LinearOpMode {
+@Autonomous(name="Pushbot: Auto Drive By Time", group="Pushbot")
+public class ISD300AutoDriveByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    ISD300HardwarePushbot         robot   = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
+    ISD300HardwarePushbot robot   = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
+
+    // lkasjfksjadklfjsdakljf
+
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 0.6;
+    static final double     FORWARD_SPEED = 0.5;
     static final double     TURN_SPEED    = 0.5;
 
     @Override
@@ -82,7 +81,7 @@ public class AristaAutoDrive extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run, Alyssa and Arista.");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -91,37 +90,92 @@ public class AristaAutoDrive extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
+        //were set at FORWARD_SPEED
         robot.leftMotor.setPower(FORWARD_SPEED);
         robot.rightMotor.setPower(FORWARD_SPEED);
+
+
+
+
+        // reset the timer
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+
+        // drive straight for 8 seconds
+        while (opModeIsActive() && (runtime.seconds() < 4.0)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(TURN_SPEED);
+
         }
 
-        // Step 2:  Spin right for 1.3 seconds
-        robot.leftMotor.setPower(TURN_SPEED);
-        robot.rightMotor.setPower(-TURN_SPEED);
+        // reset the timer
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+
+        // turn left for 5 seconds
+        while (opModeIsActive() && (runtime.seconds() < 3.5)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(0.0);
         }
 
-        // Step 3:  Drive Backwards for 1 Second
-        robot.leftMotor.setPower(-FORWARD_SPEED);
-        robot.rightMotor.setPower(-FORWARD_SPEED);
+        // reset the timer
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+
+        // drive straight for 8 seconds
+        while (opModeIsActive() && (runtime.seconds() < 4.0)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(TURN_SPEED);
         }
+
+        // reset the timer
+        runtime.reset();
+
+        // turn left for 5 seconds
+        while (opModeIsActive() && (runtime.seconds() < 3.5)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(0.0);
+        }
+
+        // reset the timer
+        runtime.reset();
+
+        // drive straight for 8 seconds
+        while (opModeIsActive() && (runtime.seconds() < 4.0)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(TURN_SPEED);
+        }
+
+        // reset the timer
+        runtime.reset();
+
+        // turn left for 5 seconds
+        while (opModeIsActive() && (runtime.seconds() < 3.5)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(0.0);
+        }
+
+        // reset the timer
+        runtime.reset();
+
+        // drive straight for 8 seconds
+        while (opModeIsActive() && (runtime.seconds() < 4.0)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(TURN_SPEED);
+        }
+
+        // reset the timer
+        runtime.reset();
+
+        // turn left for 5 seconds
+        while (opModeIsActive() && (runtime.seconds() < 3.5)) {
+            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(0.0);
+        }
+
 
         // Step 4:  Stop and close the claw.
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
-        robot.leftClaw.setPosition(1.0);
-        robot.rightClaw.setPosition(1.0);
+        robot.rightMotor.setPower(0);
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

@@ -30,15 +30,13 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.isd300.ind.arista;
+package org.firstinspires.ftc.isd300.ind.ashur;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -61,8 +59,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Arista Auto Driver", group="Pushbot")
-public class AristaAutoDrive extends LinearOpMode {
+@Autonomous(name="Ashur Auto Driver", group="Pushbot")
+public class AshurAutoDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     ISD300HardwarePushbot         robot   = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
