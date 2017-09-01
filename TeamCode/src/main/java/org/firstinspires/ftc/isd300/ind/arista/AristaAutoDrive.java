@@ -30,13 +30,14 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.isd300.ind.arista;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
@@ -60,21 +61,17 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Time", group="Pushbot")
-public class ISD300AutoDriveByTime_Linear extends LinearOpMode {
+@Autonomous(name="Arista Auto Driver", group="Pushbot")
+public class AristaAutoDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     ISD300HardwarePushbot         robot   = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
-
-    // lkasjfksjadklfjsdakljf
-
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    //static final double     FORWARD_SPEED = 0.1;
+    static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
-    static final double     RIGHT_SPEED = 0.5;
-    static final double    LEFT_SPEED = 0.5;
+
     @Override
     public void runOpMode() {
 
@@ -85,7 +82,7 @@ public class ISD300AutoDriveByTime_Linear extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run, Alyssa and Arista.");    //
+        telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -94,31 +91,37 @@ public class ISD300AutoDriveByTime_Linear extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        //were set at FORWARD_SPEED
-        robot.leftMotor.setPower(LEFT_SPEED);
-        robot.rightMotor.setPower(RIGHT_SPEED);
-
-
-
-
-
+        robot.leftMotor.setPower(FORWARD_SPEED);
+        robot.rightMotor.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 8.0)) {
-            double rightPower = robot.rightMotor.getPower();
-            double leftPower = robot.leftMotor.getPower();
-            telemetry.addData("Power", "Right: " + rightPower + " and left: " + leftPower);
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
-
         }
 
+        // Step 2:  Spin right for 1.3 seconds
+        robot.leftMotor.setPower(TURN_SPEED);
+        robot.rightMotor.setPower(-TURN_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
 
-
-
+        // Step 3:  Drive Backwards for 1 Second
+        robot.leftMotor.setPower(-FORWARD_SPEED);
+        robot.rightMotor.setPower(-FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
 
         // Step 4:  Stop and close the claw.
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
-
+        robot.leftClaw.setPosition(1.0);
+        robot.rightClaw.setPosition(1.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
