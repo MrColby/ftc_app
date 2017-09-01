@@ -69,8 +69,56 @@ public class  JackDrive extends LinearOpMode {
     private ElapsedTime timer = new ElapsedTime();
 
 
-    static final double FORWARD_SPEED = 1.6;
+    static final double FORWARD_SPEED = 1.0;
     static final double TURN_SPEED = 0.5;
+    static final double ARM_SPEED = 0.25;
+
+    private void moveArm(double power, double seconds) {
+        robot.armMotor.setPower(power);
+        timer.reset();
+        while (opModeIsActive() && (timer.seconds() < seconds)) {
+            telemetry.addData("Motion", "Arming");
+            telemetry.update();
+        }
+        robot.armMotor.setPower(0);
+    }
+
+    private void moveArmWhileDriving(double leftWheelPower, double rightWheelPower, double armPower, double seconds, boolean stopWheels, boolean stopArm) {
+        robot.rightMotor.setPower(rightWheelPower);
+        robot.leftMotor.setPower(leftWheelPower);
+        robot.armMotor.setPower(armPower);
+        timer.reset();
+        while (opModeIsActive() && (timer.seconds() < seconds)) {
+            telemetry.addData("Motion", "Driving and Arming");
+            telemetry.update();
+        }
+
+        if (stopWheels) {
+            robot.rightMotor.setPower(0);
+            robot.leftMotor.setPower(0);
+        }
+
+        if (stopArm) {
+            robot.armMotor.setPower(0);
+        }
+    }
+
+
+    private void drive(double leftWheelPower, double rightWheelPower, double seconds, boolean stopWheels){
+        robot.rightMotor.setPower(rightWheelPower);
+        robot.leftMotor.setPower(leftWheelPower);
+        timer.reset();
+        while (opModeIsActive() && (timer.seconds() < seconds)) {
+        }
+        if (stopWheels) {
+
+          robot.leftMotor.setPower(0);
+          robot.leftMotor.setPower(0);
+        }
+
+
+
+    }
 
     @Override
     public void runOpMode() {
@@ -91,67 +139,26 @@ public class  JackDrive extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
+        // fully extend the arm
+        moveArm(.1, 1.0);
+        sleep(1000);
+        moveArm(.1, 1.0);
+        sleep(1000);
+        moveArm(.1, 1.0);
 
-        // Step 1:  Drive forward for 3 seconds
-        robot.rightMotor.setPower(FORWARD_SPEED);
-        robot.leftMotor.setPower(FORWARD_SPEED);
-        timer.reset();
-        while (opModeIsActive() && (timer.seconds() < 3.0)) {
-       // telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", timer.seconds());
-        telemetry.update();
-        }
+       // moveArm(.1, 1.0);
+        // move the arm back up from fully extended
+       // moveArm(-.1, 2.0);
 
-        //test code number one
-        robot.rightMotor.setPower(-FORWARD_SPEED);
-        robot.leftMotor.setPower(FORWARD_SPEED);
-        timer.reset();
-        while (opModeIsActive() && (timer.seconds() < 3.0)) {
-        telemetry.update();
-        }
 
-        //test code number two
-        robot.rightMotor.setPower(FORWARD_SPEED);
-        robot.leftMotor.setPower(FORWARD_SPEED);
-        timer.reset();
-        while (opModeIsActive() && (timer.seconds() < 3.0)) {
-        telemetry.update();
-        }
-        // test code 3
-        robot.rightMotor.setPower(FORWARD_SPEED);
-        robot.leftMotor.setPower(-FORWARD_SPEED);
-        robot.armMotor.setPower(FORWARD_SPEED);
-        timer.reset();
-        while (opModeIsActive() && (timer.seconds() < 3.0)) {
-            telemetry.update();
-        }
+
+        //this.moveArmWhileDriving(0.5, 0.5, 0.4, 2.5, true, true);
+
+
+
+
+        sleep(1000);
     }
-            // Step 2:  Spin right for 1.3 seconds
-            //robot.leftMotor.setPower(TURN_SPEED);
-            //robot.rightMotor.setPower(-TURN_SPEED);
-            //timer.reset();
-            //while (opModeIsActive() && (timer.seconds() < 1.3)) {
-            //telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", timer.seconds());
-            //  telemetry.update();
-        }
-
-        // Step 3:  Drive Backwards for 1 Second
-        //robot.leftMotor.setPower(-FORWARD_SPEED);
-        //robot.rightMotor.setPower(-FORWARD_SPEED);
-        //timer.reset();
-        //while (opModeIsActive() && (timer.seconds() < 1.0)) {
-        //telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", timer.seconds());
-        //  telemetry.update();
-
-
-        // Step 4:  Stop and close the claw.
-        // robot.leftMotor.setPower(0);
-        // robot.rightMotor.setPower(0);
-        //robot.leftClaw.setPosition(1.0);
-        //robot.rightClaw.setPosition(0.0);
-
-        //telemetry.addData("Path", "Complete");
-        //telemetry.update();
-        //sleep(1000);
+}
 
 
