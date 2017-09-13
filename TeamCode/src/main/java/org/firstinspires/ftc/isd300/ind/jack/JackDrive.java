@@ -125,9 +125,11 @@ public class  JackDrive extends LinearOpMode {
 
 
 
+
+
         /*
          * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
+         * The init() method of the hardware //class does all the work here
          */
         robot.init(hardwareMap);
 
@@ -139,12 +141,24 @@ public class  JackDrive extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        robot.rightMotor.setPower(.5);
+        timer.reset();
+        while (opModeIsActive()){
+            telemetry.addData("hello", "i'm a robot");
+        }
+
+        drive(.5, .5, 5.0, true);
+
+        /*
+
         // fully extend the arm
         moveArm(.1, 1.0);
         sleep(1000);
         moveArm(.1, 1.0);
         sleep(1000);
         moveArm(.1, 1.0);
+
+        */
 
        // moveArm(.1, 1.0);
         // move the arm back up from fully extended
