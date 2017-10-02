@@ -30,13 +30,10 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.isd300.ind.ashur;
+package org.firstinspires.ftc.isd300.ind.bridget;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -59,70 +56,33 @@ import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Ashur Auto Driver", group="Pushbot")
-public class AshurAutoDrive extends LinearOpMode {
+@Autonomous(name="Arista Auto Driver", group="Pushbot")
+public class AristaAutoDrive extends LinearOpMode {
 
-    /* Declare OpMode members. */
-    ISD300HardwarePushbot         robot   = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime     runtime = new ElapsedTime();
-
-
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
+    private String x = "Logan";
 
     @Override
     public void runOpMode() {
 
-        /*
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
-        telemetry.update();
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
+        Robot robot = new Robot(this.telemetry, this.gamepad1, this.gamepad2);
+        robot.drive(2);
+        robot.turn(360);
 
-        // Step 1:  Drive forward for 3 seconds
-        robot.leftMotor.setPower(FORWARD_SPEED);
-        robot.rightMotor.setPower(FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+        robot.setName("marmoset3");
+        String name = robot.getName();
+        if (name.equals("marmoset3")) {
+            robot.speak("Note to self","I am working, " + name);
+        }
+        else {
+            robot.speak("Note to self","I hate your stinking guts, " + name);
         }
 
-        // Step 2:  Spin right for 1.3 seconds
-        robot.leftMotor.setPower(TURN_SPEED);
-        robot.rightMotor.setPower(-TURN_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
 
-        // Step 3:  Drive Backwards for 1 Second
-        robot.leftMotor.setPower(-FORWARD_SPEED);
-        robot.rightMotor.setPower(-FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
 
-        // Step 4:  Stop and close the claw.
-        robot.leftMotor.setPower(0);
-        robot.rightMotor.setPower(0);
-        robot.leftClaw.setPosition(1.0);
-        robot.rightClaw.setPosition(1.0);
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
         sleep(1000);
     }
 }

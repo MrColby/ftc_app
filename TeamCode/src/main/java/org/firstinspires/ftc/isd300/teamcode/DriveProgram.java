@@ -36,15 +36,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
-
 /**
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
+ * This OpMode uses the common Pushbot hardware class to define the devices on the wallaby.
  * All device access is managed through the HardwarePushbot class.
  * The code is structured as a LinearOpMode
  *
  * This particular OpMode executes a POV Game style Teleop for a PushBot
- * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
+ * In this mode the left stick moves the wallaby FWD and back, the Right stick turns left and right.
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
  *
@@ -53,10 +51,10 @@ import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
  */
 
 @TeleOp(name="Pushbot: Teleop POV", group="Pushbot")
-public class ISD300TeleopTank_Linear extends LinearOpMode {
+public class DriveProgram extends LinearOpMode {
 
     /* Declare OpMode members. */
-    ISD300HardwarePushbot robot           = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
+    Wallaby robot           = new Wallaby();   // Use a Pushbot's hardware
                                                                // could also use HardwarePushbotMatrix class.
     double          clawOffset      = 0;                       // Servo mid position
     final double    CLAW_SPEED      = 0.02 ;                   // sets rate to move servo
@@ -72,7 +70,7 @@ public class ISD300TeleopTank_Linear extends LinearOpMode {
          */
         robot.init(hardwareMap);
 
-        // Send telemetry message to signify robot waiting;
+        // Send telemetry message to signify wallaby waiting;
         telemetry.addData("Say", "Hello, Owen");    //
         telemetry.update();
 
@@ -94,8 +92,8 @@ public class ISD300TeleopTank_Linear extends LinearOpMode {
                 right /= max;
             }
 
-            robot.leftMotor.setPower(left);
-            robot.rightMotor.setPower(right);
+            robot.leftDrive.setPower(left);
+            robot.rightDrive.setPower(right);
 
             // Use gamepad left & right Bumpers to open and close the claw
             if (gamepad1.right_bumper)
@@ -116,7 +114,7 @@ public class ISD300TeleopTank_Linear extends LinearOpMode {
             else
                 robot.armMotor.setPower(0.0);
 
-            // Send telemetry message to signify robot running;
+            // Send telemetry message to signify wallaby running;
             telemetry.addData("claw",  "Offset = %.2f", clawOffset);
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);

@@ -33,11 +33,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.isd300.ind.jack;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
+import org.firstinspires.ftc.isd300.teamcode.Wallaby;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -65,7 +64,7 @@ import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
 public class  JackDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
-    ISD300HardwarePushbot robot = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
+    Wallaby robot = new Wallaby();   // Use a Pushbot's hardware
     private ElapsedTime timer = new ElapsedTime();
 
 
@@ -84,8 +83,8 @@ public class  JackDrive extends LinearOpMode {
     }
 
     private void moveArmWhileDriving(double leftWheelPower, double rightWheelPower, double armPower, double seconds, boolean stopWheels, boolean stopArm) {
-        robot.rightMotor.setPower(rightWheelPower);
-        robot.leftMotor.setPower(leftWheelPower);
+        robot.rightDrive.setPower(rightWheelPower);
+        robot.leftDrive.setPower(leftWheelPower);
         robot.armMotor.setPower(armPower);
         timer.reset();
         while (opModeIsActive() && (timer.seconds() < seconds)) {
@@ -94,8 +93,8 @@ public class  JackDrive extends LinearOpMode {
         }
 
         if (stopWheels) {
-            robot.rightMotor.setPower(0);
-            robot.leftMotor.setPower(0);
+            robot.rightDrive.setPower(0);
+            robot.leftDrive.setPower(0);
         }
 
         if (stopArm) {
@@ -105,15 +104,15 @@ public class  JackDrive extends LinearOpMode {
 
 
     private void drive(double leftWheelPower, double rightWheelPower, double seconds, boolean stopWheels){
-        robot.rightMotor.setPower(rightWheelPower);
-        robot.leftMotor.setPower(leftWheelPower);
+        robot.rightDrive.setPower(rightWheelPower);
+        robot.leftDrive.setPower(leftWheelPower);
         timer.reset();
         while (opModeIsActive() && (timer.seconds() < seconds)) {
         }
         if (stopWheels) {
 
-          robot.leftMotor.setPower(0);
-          robot.leftMotor.setPower(0);
+          robot.leftDrive.setPower(0);
+          robot.leftDrive.setPower(0);
         }
 
 
@@ -141,7 +140,7 @@ public class  JackDrive extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        robot.rightMotor.setPower(.5);
+        robot.rightDrive.setPower(.5);
         timer.reset();
         while (opModeIsActive()){
             telemetry.addData("hello", "i'm a robot");
