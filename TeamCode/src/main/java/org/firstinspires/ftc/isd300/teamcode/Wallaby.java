@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * This is NOT an opmode.
  *
- * This class can be used to define all the specific hardware for a single robot.
- * In this case that robot is a Pushbot.
+ * This class can be used to define all the specific hardware for a single wallaby.
+ * In this case that wallaby is a Pushbot.
  * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
  *
- * This hardware class assumes the following device names have been configured on the robot:
+ * This hardware class assumes the following device names have been configured on the wallaby:
  * Note:  All names are lower case and some have single spaces between words.
  *
  * Motor channel:  Left  drive motor:        "left_drive"
@@ -21,11 +21,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class ISD300HardwarePushbot
+public class Wallaby
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
+    public DcMotor  leftDrive   = null;
+    public DcMotor  rightDrive  = null;
     public DcMotor  armMotor    = null;
     public Servo    leftClaw    = null;
     public Servo    rightClaw   = null;
@@ -39,7 +39,7 @@ public class ISD300HardwarePushbot
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public ISD300HardwarePushbot(){
+    public Wallaby(){
 
     }
 
@@ -49,21 +49,21 @@ public class ISD300HardwarePushbot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor   = hwMap.dcMotor.get("left_drive");
-        rightMotor  = hwMap.dcMotor.get("right_drive");
+        leftDrive   = hwMap.dcMotor.get("left_drive");
+        rightDrive  = hwMap.dcMotor.get("right_drive");
         armMotor    = hwMap.dcMotor.get("left_arm");
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
         armMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

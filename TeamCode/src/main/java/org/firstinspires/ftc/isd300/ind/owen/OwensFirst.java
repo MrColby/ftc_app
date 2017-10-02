@@ -33,12 +33,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.isd300.ind.owen;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import org.firstinspires.ftc.isd300.teamcode.Wallaby;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -65,7 +63,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 public class OwensFirst extends LinearOpMode {
 
     /* Declare OpMode members. */
-    ISD300HardwarePushbot         robot   = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
+    Wallaby robot   = new Wallaby();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -91,8 +89,8 @@ public class OwensFirst extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 4 seconds
-        robot.leftMotor.setPower(1.0);
-        robot.rightMotor.setPower(1.0);
+        robot.leftDrive.setPower(1.0);
+        robot.rightDrive.setPower(1.0);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 4.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
@@ -100,8 +98,8 @@ public class OwensFirst extends LinearOpMode {
         }
 
         // Step 2:  Spin right for 1.3 seconds
-        robot.leftMotor.setPower(1.0);
-        robot.rightMotor.setPower(1.0);
+        robot.leftDrive.setPower(1.0);
+        robot.rightDrive.setPower(1.0);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.3)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -109,8 +107,8 @@ public class OwensFirst extends LinearOpMode {
         }
 
         // Step 3:  Drive forward for 4 Seconds
-        robot.leftMotor.setPower(1.0);
-        robot.rightMotor.setPower(1.0);
+        robot.leftDrive.setPower(1.0);
+        robot.rightDrive.setPower(1.0);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 4.0)) {
             telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
@@ -118,8 +116,8 @@ public class OwensFirst extends LinearOpMode {
         }
 
         // Step 4:  Stop and close the claw.
-        robot.leftMotor.setPower(1.0);
-        robot.rightMotor.setPower(1.0);
+        robot.leftDrive.setPower(1.0);
+        robot.rightDrive.setPower(1.0);
         robot.leftClaw.setPosition(1.0);
         robot.rightClaw.setPosition(1.0);
 
