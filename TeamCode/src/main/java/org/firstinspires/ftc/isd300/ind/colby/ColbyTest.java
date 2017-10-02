@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
+import org.firstinspires.ftc.isd300.teamcode.Wallaby;
 
 /**
  */
@@ -45,7 +45,7 @@ import org.firstinspires.ftc.isd300.teamcode.ISD300HardwarePushbot;
 public class ColbyTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    ISD300HardwarePushbot robot = new ISD300HardwarePushbot();   // Use a Pushbot's hardware
+    Wallaby robot = new Wallaby();   // Use a Pushbot's hardware
     private ElapsedTime timer = new ElapsedTime();
 
     private void messageNow(String caption, String msg) {
@@ -71,19 +71,19 @@ public class ColbyTest extends LinearOpMode {
     }
 
     private void setRobotMovingStraight(double power) {
-        robot.rightMotor.setPower(power);
-        robot.leftMotor.setPower(power);
+        robot.rightDrive.setPower(power);
+        robot.leftDrive.setPower(power);
     }
 
     private void setRobotTurning(double leftPower, double rightPower) {
-        robot.leftMotor.setPower(leftPower);
-        robot.rightMotor.setPower(rightPower);
+        robot.leftDrive.setPower(leftPower);
+        robot.rightDrive.setPower(rightPower);
     }
 
     private void stopDriving() {
         messageNow("Stopping wheels", "Stopping wheels now");
-        robot.leftMotor.setPower(0.0);
-        robot.rightMotor.setPower(0.0);
+        robot.leftDrive.setPower(0.0);
+        robot.rightDrive.setPower(0.0);
     }
 
 
