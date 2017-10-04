@@ -59,7 +59,7 @@ import org.firstinspires.ftc.isd300.teamcode.Wallaby;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Arista Auto Driver", group="Pushbot")
+@Autonomous(name="Arista Drive", group="Pushbot")
 public class AristaAutoDrive extends LinearOpMode {
 
     private String x = "Logan";
