@@ -44,9 +44,12 @@ public class DHController extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot = new CPRoboto(telemetry);
+        robot = new CPRoboto(telemetry,this.hardwareMap);
         robot.transmit("Msg", getRandomMessage());
         this.waitForStart();
+        while (this.opModeIsActive()) {
+            robot.drive(this.gamepad1.right_stick_y, this.gamepad1.right_stick_y, this.gamepad1.right_stick_y, this.gamepad1.right_stick_y);
+        }
 
 
     }

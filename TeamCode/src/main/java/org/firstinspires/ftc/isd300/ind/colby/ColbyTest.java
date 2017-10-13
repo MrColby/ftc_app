@@ -32,35 +32,92 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.isd300.ind.colby;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.Random;
 
-import org.firstinspires.ftc.isd300.teamcode.Wallaby;
 
 /**
  */
 
 @TeleOp(name="Colby Test", group="Colby")
-public class ColbyTest extends OpMode {
+public class ColbyTest extends LinearOpMode {
 
     private Robot robot;
+    private ElapsedTime timer;
 
-    @Override
-    public void loop() {
 
+    public void message(String caption, String msg) {
+        this.telemetry.addData(caption, msg);
+        this.telemetry.update();
     }
 
+    public void message(String caption, String msg1, String msg2) {
+        this.telemetry.addData(caption, msg1);
+        this.telemetry.addData(caption, msg2);
+        this.telemetry.update();
+    }
 
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
+
         this.robot = new Robot(this.telemetry);
+        this.timer = new ElapsedTime();
+
+        double timeAllowed = 10000; // milliseconds
+
+        message("debug", "padA: " + gamepad1.a, "padB: " + gamepad1.b);
+
+        this.waitForStart();
+
+        String loseMsg = null;
+        while (this.opModeIsActive() && loseMsg == null) {
+
+            Random rand = new Random();
+            if (rand.nextInt(2) == 0) {
+                loseMsg = a(this.gamepad1, timer, timeAllowed);
+            }
+            else {
+                loseMsg = b(this.gamepad1, timer, timeAllowed);
+            }
+
+            if (loseMsg != null) {
+                message("Lose", loseMsg);
+                sleep(3000);
+            }
+            //timeAllowed = timeAllowed - .1*timeAllowed;
+        }
     }
+
+    private String b(Gamepad pad, ElapsedTime timer, double timeAllowed) {
+        boolean pressed = pad.b;
+        if (pressed) return "You pressed B too early";
+        message("Play", "Press the B button in " + timeAllowed/1000 + " seconds:");
+        timer.reset();
+        while (timer.milliseconds() < timeAllowed && !pressed) {
+            pressed = this.gamepad1.b;
+        }
+        if (!pressed) return "You didn't press B in " + timeAllowed/1000 + " seconds";
+        return null;
+    }
+
+    private String a(Gamepad pad, ElapsedTime timer, double timeAllowed) {
+        boolean pressed = pad.a;
+        if (pressed) return "You pressed A too early";
+        message("Play", "Press the A button in " + timeAllowed/1000 + " seconds:");
+        timer.reset();
+        while (timer.milliseconds() < timeAllowed && !pressed) {
+            pressed = this.gamepad1.a;
+        }
+        if (!pressed) return "You didn't press A in " + timeAllowed/1000 + " seconds";
+        return null;
+    }
+
+
 
 
 }
-
-
