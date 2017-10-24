@@ -37,7 +37,7 @@ public class CodyRobotController extends LinearOpMode {
         while (this.opModeIsActive() && inPlay == true) {
 
             // get four choices for two possible gamepad options
-            int choice = random.nextInt(4);
+            int choice = random.nextInt(15);
 
             // wait for a part of a second with the screen blank before telling the next command
             timer.reset();
@@ -54,8 +54,31 @@ public class CodyRobotController extends LinearOpMode {
                 report("info", "B");
             } else if (choice == 3) {
                 report("info", "Y");
+            } else if (choice == 4) {
+                report("info", "D_PAD UP");
+            } else if (choice == 5) {
+                report("info", "D_PAD LEFT");
+            } else if (choice == 6) {
+                report("info", "D_PAD DOWN");
+            } else if (choice == 7) {
+                report("info", "D_PAD RIGHT");
+            } else if (choice == 8) {
+                report("info", "RIGHT TRIGGER");
+            } else if (choice == 9) {
+                report("info", "LEFT TRIGGER");
+            } else if (choice == 10) {
+                report("info", "RIGHT BUTTON");
+            } else if (choice == 11) {
+                report("info", "LEFT BUTTON");
+            } else if (choice == 12) {
+                report("info", "RIGHT STICK UP");
+            } else if (choice == 13) {
+                report("info", "RIGHT STICK UP");
+            } else if (choice == 13) {
+                report("info", "RIGHT STICK RIGHT");
+            } else if (choice == 14) {
+                report("info", "RIGHT STICK LEFT");
             }
-
             // reset the timer and give them time to press it
             timer.reset();
             while (timer.milliseconds() < waitTime) {
@@ -70,16 +93,44 @@ public class CodyRobotController extends LinearOpMode {
                 // do nothing; they made the right choice
             } else if (choice == 3 && this.gamepad1.y) {
                 // do nothing; they made the right choice
-            } else {
+            } else if (choice == 4 && this.gamepad1.dpad_up) {
+                // do nothing; they made the right choice
+            } else if (choice == 5 && this.gamepad1.dpad_left) {
+                // do nothing; they made the right choice
+            } else if (choice == 6 && this.gamepad1.dpad_down) {
+                // do nothing; they made the right choice
+            } else if (choice == 7 && this.gamepad1.dpad_right) {
+                // do nothing; they made the right choice
+            } else if (choice == 8 && this.gamepad1.right_trigger > 0.5) {
+                // do nothing; they made the right choice
+            } else if (choice == 9 && this.gamepad1.left_trigger > 0.5) {
+                // do nothing; they made the right choice
+            } else if (choice == 10 && this.gamepad1.right_bumper) {
+                // do nothing; they made the right choice
+            } else if (choice == 11 && this.gamepad1.left_bumper) {
+                // do nothing; they made the right choice
+            } else if (choice == 12 && this.gamepad1.right_stick_y < -.5) {
+                // do nothing; they made the right choice
+            } else if (choice == 12 && this.gamepad1.left_stick_y < -.5) {
+                // do nothing; they made the right choice
+            } else if (choice == 13 && this.gamepad1.right_stick_x <.5){
+                // do nothing; they made the right choice
+            } else if (choice == 14 && this.gamepad1.right_stick_x < -.5){
+                // do nothing; they made the right choice
+            } else{
+
                 // they haven't made the right choice; force the game to end
                 inPlay = false;
+                report("Info","You lose");
             }
 
-            // leaves 80% of the time for the next time through
-            waitTime = 0.8 * waitTime;
-
+            // leaves 90% of the time for the next time through
+            waitTime = 0.9 * waitTime;
         }
+
+
     }
+
 
     public void report(String caption,String message) {
 
