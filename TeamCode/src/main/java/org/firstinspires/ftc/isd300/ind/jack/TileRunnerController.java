@@ -33,6 +33,8 @@ public class TileRunnerController extends LinearOpMode {
         while (this.opModeIsActive()) {
           robot.driveY(this.gamepad1);
           robot.driveX(this.gamepad1);
+          robot.driveTL(this.gamepad1);
+          robot.drivedTR(this.gamepad1);
         }
     }
 
