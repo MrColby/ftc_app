@@ -31,6 +31,7 @@ package org.firstinspires.ftc.isd300.ind.jack;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -51,12 +52,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TileRunnerHardware
 {
     /* Public OpMode members. */
-    public DcMotor  front_right   = null;
+    public DcMotor  front_right = null;
     public DcMotor  front_left  = null;
-    public DcMotor  back_right     = null;
-    public DcMotor    back_left   = null;
+    public DcMotor  back_right  = null;
+    public DcMotor  back_left   = null;
+    public Servo    servo_motor = null;
 
-   // public static final double MID_SERVO       =  0.5 ;
+
+    // public static final double MID_SERVO       =  0.5 ;
     //public static final double ARM_UP_POWER    =  0.45 ;
     //public static final double ARM_DOWN_POWER  = -0.45 ;
 
@@ -83,12 +86,16 @@ public class TileRunnerHardware
         front_right.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         back_left.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         back_right.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        servo_motor  = hwMap.get (Servo.class, "eyestalk");
+        servo_motor.setPosition(0.5);
+
 
         // Set all motors to zero power
         front_left.setPower(0);
         front_right.setPower(0);
         back_left.setPower(0);
         back_right.setPower(0);
+        servo_motor.setPosition(0.5);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -96,6 +103,9 @@ public class TileRunnerHardware
         front_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         back_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         back_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+
 
         // Define and initialize ALL installed servos.
        //front_left  = hwMap.get(Servo.class, "left_hand");
