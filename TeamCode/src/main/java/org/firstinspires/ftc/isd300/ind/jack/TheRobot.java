@@ -48,12 +48,12 @@ public class TheRobot {
         double backLeft = gamepad.left_stick_x;
 
         hardware.front_left.setPower(frontLeft);
+        hardware.back_left.setPower(-1*backLeft);
+        hardware.back_right.setPower(-1*backRight);
         hardware.front_right.setPower(frontRight);
-        hardware.back_left.setPower(backLeft);
-        hardware.back_right.setPower(backRight);
 
     }
-    public void driveTL(Gamepad gamepad){
+    public void driveTL(Gamepad gamepad) {
         double frontRight = gamepad.left_trigger;
         double frontLeft = gamepad.left_trigger;
         double backRight = gamepad.left_trigger;
@@ -63,11 +63,15 @@ public class TheRobot {
         hardware.front_right.setPower(frontRight);
         hardware.back_left.setPower(backLeft);
         hardware.back_right.setPower(backRight);
+    }
 
 
+    public void servo(Gamepad gamepad){
+        boolean servoMotor = gamepad.dpad_up;
 
 
     }
+
     public void drivedTR(Gamepad gamepad){
         double frontRight = gamepad.right_trigger;
         double frontLeft = gamepad.right_trigger;
