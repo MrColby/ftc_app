@@ -23,7 +23,6 @@ public class CodyRobotController extends LinearOpMode {
 
         // timer controls how long the player has to press the button
         ElapsedTime timer = new ElapsedTime();
-
         // inPlay keeps you playing as long as you are pressing the right buttons
         boolean inPlay = true;
 
@@ -36,48 +35,48 @@ public class CodyRobotController extends LinearOpMode {
         // loops until you don't press the right button or until you stop by the phone
         while (this.opModeIsActive() && inPlay == true) {
 
-            // get four choices for two possible gamepad options
+            // get a total of 16 possible gamepad options
             int choice = random.nextInt(15);
 
             // wait for a part of a second with the screen blank before telling the next command
             timer.reset();
-            report("Info", "");
+            report("Status", "");
             while (timer.milliseconds() < 200) {
             }
 
             // tell the player what to do
             if (choice == 0) {
-                report("info", "X");
+                report("Status", "X");
             } else if (choice == 1) {
-                report("info", "A");
+                report("Status", "A");
             } else if (choice == 2) {
-                report("info", "B");
+                report("Status", "B");
             } else if (choice == 3) {
-                report("info", "Y");
+                report("Status", "Y");
             } else if (choice == 4) {
-                report("info", "D_PAD UP");
+                report("Status", "D_PAD UP");
             } else if (choice == 5) {
-                report("info", "D_PAD LEFT");
+                report("Status", "D_PAD LEFT");
             } else if (choice == 6) {
-                report("info", "D_PAD DOWN");
+                report("Status", "D_PAD DOWN");
             } else if (choice == 7) {
-                report("info", "D_PAD RIGHT");
+                report("Status", "D_PAD RIGHT");
             } else if (choice == 8) {
-                report("info", "RIGHT TRIGGER");
+                report("Status", "RIGHT TRIGGER");
             } else if (choice == 9) {
-                report("info", "LEFT TRIGGER");
+                report("Status", "LEFT TRIGGER");
             } else if (choice == 10) {
-                report("info", "RIGHT BUTTON");
+                report("Status", "RIGHT BUTTON");
             } else if (choice == 11) {
-                report("info", "LEFT BUTTON");
+                report("Status", "LEFT BUTTON");
             } else if (choice == 12) {
-                report("info", "RIGHT STICK UP");
+                report("Status", "RIGHT STICK UP");
             } else if (choice == 13) {
-                report("info", "RIGHT STICK UP");
+                report("Status", "RIGHT STICK UP");
             } else if (choice == 13) {
-                report("info", "RIGHT STICK RIGHT");
+                report("Status", "RIGHT STICK RIGHT");
             } else if (choice == 14) {
-                report("info", "RIGHT STICK LEFT");
+                report("Status", "RIGHT STICK LEFT");
             }
             // reset the timer and give them time to press it
             timer.reset();
@@ -121,16 +120,14 @@ public class CodyRobotController extends LinearOpMode {
 
                 // they haven't made the right choice; force the game to end
                 inPlay = false;
-                report("Info","You lose");
+                report("Status","You lose, play again :)");
             }
 
             // leaves 90% of the time for the next time through
             waitTime = 0.9 * waitTime;
         }
 
-
     }
-
 
     public void report(String caption,String message) {
 
@@ -138,5 +135,4 @@ public class CodyRobotController extends LinearOpMode {
 
         this.telemetry.update();
     }
-
 }
