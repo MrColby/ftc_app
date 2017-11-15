@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.isd300.ind.alyssa;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,13 +8,13 @@ import java.util.Random;
 /**
  * Created by colbyl on 10/5/2017.
  */
-@TeleOp(name="AlyssaPandaBopIt", group="Panda")
-@Disabled
+@TeleOp(name="PandaBopIt", group="Panda")
 public class AlyssaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
         int score = 0;
+        int countDracula = 0;
 
         this.waitForStart();
         String message;
@@ -26,6 +25,7 @@ public class AlyssaBopIt extends LinearOpMode {
             int choice = rand.nextInt(8);
             if (choice == 0) {
                 call("alert", "push A button");
+
             }
             else if (choice == 1) {
                 call("alert", "push B button");
@@ -53,10 +53,6 @@ public class AlyssaBopIt extends LinearOpMode {
             timer.reset();
             while (timer.milliseconds() < time) {
             }
-            if (gamepad1.right_stick_button == true) {
-                score = score + 10;
-            }
-
 
             if (choice == 0 && (gamepad1.a == false)) {
                     lost = true;
@@ -83,8 +79,12 @@ public class AlyssaBopIt extends LinearOpMode {
                 lost = true;
             }
             else {
-                    score = score + 1;
+                score++;
+                countDracula++;
+                if (countDracula == 3) {
                     time = .9 * time;
+                    countDracula = 0;
+                }
             }
 
         }
