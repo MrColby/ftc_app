@@ -53,6 +53,10 @@ public class AlyssaBopIt extends LinearOpMode {
             timer.reset();
             while (timer.milliseconds() < time) {
             }
+            if (gamepad1.right_stick_button == true) {
+                score = score + 10;
+            }
+
 
             if (choice == 0 && (gamepad1.a == false)) {
                     lost = true;
