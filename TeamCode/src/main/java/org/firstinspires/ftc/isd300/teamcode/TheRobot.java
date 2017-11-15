@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.isd300.ind.jack;
+package org.firstinspires.ftc.isd300.teamcode;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -15,7 +14,7 @@ public class TheRobot {
 
     private HardwareMap hardwareMap;
 
-   TileRunnerHardware hardware = new TileRunnerHardware();
+   TheRobotHardware hardware = new TheRobotHardware();
 
     public TheRobot(Telemetry tel, HardwareMap map) {
         telly = tel;
@@ -26,6 +25,15 @@ public class TheRobot {
     public void transmit(String caption,String message){
         telly.addData(caption, message);
         telly.update();
+    }
+
+    public void setEyeStalkPosition(Gamepad gamepad) {
+        if(gamepad.a){
+            hardware.setEyeStalkPosition(0.3141500203);
+        }
+        else if(gamepad.y){
+            hardware.setEyeStalkPosition(0);
+        }
     }
 
     public void driveY(Gamepad gamepad){
