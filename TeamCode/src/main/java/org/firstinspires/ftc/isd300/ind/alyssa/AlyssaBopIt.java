@@ -14,7 +14,7 @@ public class AlyssaBopIt extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         int score = 0;
-        int countDracula = 0;
+
 
         this.waitForStart();
         String message;
@@ -79,12 +79,8 @@ public class AlyssaBopIt extends LinearOpMode {
                 lost = true;
             }
             else {
-                score++;
-                countDracula++;
-                if (countDracula == 3) {
+                    score = score + 1;
                     time = .9 * time;
-                    countDracula = 0;
-                }
             }
 
         }
