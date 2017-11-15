@@ -8,13 +8,14 @@ import java.util.Random;
 /**
  * Created by colbyl on 10/5/2017.
  */
-@TeleOp(name="PandaRobotController", group="Panda")
-public class RobotController extends LinearOpMode {
-    private Panda panda;
+@TeleOp(name="PandaBopIt", group="Panda")
+public class AlyssaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        panda = new Panda(this.telemetry);
-        panda.call("alert", "panda");
+
+        int score = 0;
+        int countDracula = 0;
+
         this.waitForStart();
         String message;
         boolean lost = false;
@@ -24,6 +25,7 @@ public class RobotController extends LinearOpMode {
             int choice = rand.nextInt(8);
             if (choice == 0) {
                 call("alert", "push A button");
+
             }
             else if (choice == 1) {
                 call("alert", "push B button");
@@ -77,16 +79,26 @@ public class RobotController extends LinearOpMode {
                 lost = true;
             }
             else {
-                time = .9*time;
+                score++;
+                countDracula++;
+                if (countDracula == 3) {
+                    time = .9 * time;
+                    countDracula = 0;
+                }
             }
 
         }
+        this.telemetry.addData("","your score is "+ score) ;
+        this.telemetry.update();
+            waitForALittleBit(2500);
     }
-    public int countUp (int x) {
-        x = x + 1;
-        panda.call("alert", "you have " + x + " seconds");
-        return x;
-    }
+    private void waitForALittleBit(double time){
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.milliseconds() < time) {
+        }
+    };
+
     public void call(String caption, String message) {
         telemetry.addData(caption, message);
         telemetry.update();

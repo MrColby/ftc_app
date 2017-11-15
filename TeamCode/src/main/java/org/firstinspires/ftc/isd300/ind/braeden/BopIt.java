@@ -96,11 +96,10 @@ public class BopIt extends LinearOpMode {
             timer.reset();
             int imPressed = -1;
             while(timer.milliseconds()<waitTime){
-                String dots = "";
                 for (int x=0; x < 10; x++) {
-                    dots = dots + ".";
+
                 }
-                call(msg + dots + (Math.round(waitTime - timer.milliseconds())));
+
                 if (imPressed == -1) imPressed = this.testGamepad(command);
                 else if (imPressed == 1){
                     int newVote = this.testGamepad(command);
