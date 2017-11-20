@@ -8,14 +8,18 @@ import java.util.Random;
  * Created by colbyl on 11/10/2017.
  */
 @TeleOp(name="Novaleebopit", group="Novalee")
-public class Bopit extends LinearOpMode {
+public class NovaleeBopit extends LinearOpMode {
+
+    private static final int X = 0;
+    private static final int Y = 1;
+
     @Override
     public void runOpMode() throws InterruptedException {
         Random random=new Random();
         int choice=random.nextInt(2);
         ElapsedTime timer = new ElapsedTime();
         this.waitForStart();
-        if(choice==0){
+        if(choice==X){
             this.telemetry.addData("Info", "Press X");
             this.telemetry.update();
         }
@@ -28,7 +32,7 @@ public class Bopit extends LinearOpMode {
         while (timer.milliseconds()<5000) {
         //twiddle
         }
-        if(this.gamepad1.x==true){
+        if(choice == X && this.gamepad1.x==true){
             this.telemetry.addData("Info","Good Job");
             this.telemetry.update();
 
@@ -40,7 +44,7 @@ public class Bopit extends LinearOpMode {
         timer.reset();
         while (timer.milliseconds()<5000){
 
-        }
 
+        }
     }
 }
