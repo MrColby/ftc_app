@@ -13,9 +13,9 @@ public class RobotController extends LinearOpMode {
     private Panda panda;
     @Override
     public void runOpMode() throws InterruptedException {
-        panda = new Panda(this.telemetry);
-        panda.call("alert", "panda");
+        int score = 0;
         this.waitForStart();
+        int countDracula = 0;
         String message;
         boolean lost = false;
         Random rand = new Random();
@@ -77,16 +77,17 @@ public class RobotController extends LinearOpMode {
                 lost = true;
             }
             else {
-                time = .9*time;
+                score++;
+                time = .95*time;
+                if (gamepad1.right_bumper == true) {
+                    score = score + 10;
+                }
+
             }
 
         }
     }
-    public int countUp (int x) {
-        x = x + 1;
-        panda.call("alert", "you have " + x + " seconds");
-        return x;
-    }
+
     public void call(String caption, String message) {
         telemetry.addData(caption, message);
         telemetry.update();
