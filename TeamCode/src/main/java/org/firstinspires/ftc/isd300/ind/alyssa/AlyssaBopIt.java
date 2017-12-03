@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * Created by colbyl on 10/5/2017.
  */
-@TeleOp(name="PandaBopIt", group="Panda")
+@TeleOp(name="AlyssaPandaBopIt", group="Panda")
 public class AlyssaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

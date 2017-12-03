@@ -9,8 +9,8 @@ import java.util.Random;
 /**
 * Created by whiar on 12/3/2017.
 */
-@TeleOp(name="PandaBopIt", group="Panda")
-public class AlyssaBopIt extends LinearOpMode {
+@TeleOp(name="AristaPandaBopIt", group="Panda")
+public class AristaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
