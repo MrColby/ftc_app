@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 /**
  * Created by colbyl on 10/4/2017.
  */
-@TeleOp(name="AlyssaBopIt", group="jacob")
+@TeleOp(name="AristaBopIt", group="jacob")
 public class RobotController extends LinearOpMode {
     Terminator terminator;
     @Override

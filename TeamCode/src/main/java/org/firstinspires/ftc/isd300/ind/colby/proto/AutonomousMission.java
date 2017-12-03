@@ -25,7 +25,7 @@ public class AutonomousMission {
         this.color = pColor;
         this.position = pPosition;
 
-        protoBot = new ProtoBot(this.linearOpMode.hardwareMap, this.linearOpMode.telemetry, this.linearOpMode.gamepad1, this.linearOpMode.gamepad2);
+        protoBot = new ProtoBot(this.linearOpMode.hardwareMap, this.linearOpMode.telemetry);
 
 
 

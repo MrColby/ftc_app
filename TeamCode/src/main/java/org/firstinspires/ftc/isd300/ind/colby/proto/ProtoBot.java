@@ -6,9 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -34,11 +32,9 @@ public class ProtoBot {
 
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
-    private Gamepad gamepad1;
-    private Gamepad gamepad2;
     private BNO055IMU imu;
 
-    private boolean fieldCentric = false;
+
 
     private DcMotor wheelFrontRightMotor;
     private DcMotor  wheelFrontLeftMotor;
@@ -63,11 +59,9 @@ public class ProtoBot {
     public static final int COLOR_GREEN = 2;
     public static final int COLOR_BLUE = 3;
 
-    public ProtoBot(HardwareMap pHardwareMap, Telemetry pTelemetry, Gamepad pGamepad1, Gamepad pGamepad2) {
+    public ProtoBot(HardwareMap pHardwareMap, Telemetry pTelemetry) {
         this.hardwareMap = pHardwareMap;
         this.telemetry = pTelemetry;
-        this.gamepad1 = pGamepad1;
-        this.gamepad2 = pGamepad2;
         this.initializeWheels();
         this.initializeArm();
         this.initializeEyestalk();
@@ -86,6 +80,14 @@ public class ProtoBot {
         return eyeStalkDistanceSensor.getDistance(DistanceUnit.CM);
     }
 
+    public void raiseEyestalk() {
+        this.eyeStalkServo.setPosition(.9);
+    }
+
+    public void lowerEyestalk() {
+        this.eyeStalkServo.setPosition(.1);
+    }
+
     public int getEyestalkColor() {
         double SCALE_FACTOR = 255;
         float hsvValues[] = {0F, 0F, 0F};
@@ -101,46 +103,7 @@ public class ProtoBot {
 
     }
 
-    public void drive() {
-        double forward = -1*this.gamepad1.right_stick_y;
-        double right = this.gamepad1.right_stick_x;
-        double clockwise = this.gamepad1.left_stick_x;
-        double axisSensitivityScalingConstant = 0.01;
-
-
-
-        if (this.gamepad1.right_bumper) {
-            this.fieldCentric = false;
-        }
-        else if (this.gamepad1.left_bumper) {
-            this.fieldCentric = true;
-        }
-
-        if (fieldCentric) {
-            // for field centric support
-            Orientation angles = getGyroAngles();
-            float rotation = angles.firstAngle;
-            if (rotation < 0) rotation = 360 - Math.abs(rotation);
-            if (rotation > 360) rotation = rotation % 360;
-
-            message("ilu", "Rotation: " + rotation);
-
-
-
-            double temp = forward*Math.cos(rotation) + right*Math.sin(rotation);
-            right = -forward*Math.sin(rotation) + right*Math.cos(rotation);
-            forward = temp;
-
-            /*double temp = forward*Math.cos(rotation) - right*Math.sin(rotation);
-            right = forward*Math.sin(rotation) + right*Math.cos(rotation);
-            forward = temp;*/
-        }
-
-
-        double frontLeft = forward + clockwise + right;
-        double frontRight = forward - clockwise - right;
-        double rearLeft = forward + clockwise - right;
-        double rearRight = forward - clockwise + right;
+    public void drive(double frontLeft, double frontRight, double rearLeft, double rearRight) {
 
         double max = Math.abs(frontLeft);
         if (Math.abs(frontRight)>max) max = Math.abs(frontRight);
@@ -159,12 +122,21 @@ public class ProtoBot {
 
     }
 
-    private Orientation getGyroAngles() {
+    public Orientation getGyroAngles() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         this.message("imu:",angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
         return angles;
     }
 
+    public void openHands() {
+        this.leftHandServo.setPosition(.9);
+        this.rightHandServo.setPosition(.9);
+    }
+
+    public void closeHands() {
+        this.leftHandServo.setPosition(.45);
+        this.rightHandServo.setPosition(.45);
+    }
     /*public void drive() {
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
@@ -209,6 +181,8 @@ public class ProtoBot {
         //this.armMotor = this.hardwareMap.get(DcMotor.class, "arm");
         this.leftHandServo = this.hardwareMap.get(Servo.class, "left_hand");
         this.rightHandServo = this.hardwareMap.get(Servo.class, "right_hand");
+        this.leftHandServo.setPosition(0.5);
+        this.rightHandServo.setPosition(0.5);
     }
 
     private void initializeEyestalk() {
@@ -251,7 +225,7 @@ public class ProtoBot {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 10);
     }
 
-    private void message(String caption, String msg) {
+    public void message(String caption, String msg) {
         this.telemetry.addData(caption, msg);
         this.telemetry.update();
     }
