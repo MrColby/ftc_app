@@ -89,18 +89,19 @@ public class ProtoBot {
     }
 
     public void drive() {
-        double r = Math.hypot(this.gamepad1.left_stick_x, this.gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(this.gamepad1.left_stick_y, this.gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = this.gamepad1.right_stick_x;
-        double v1 = r * Math.cos(robotAngle) + rightX;
-        double v2 = r * Math.sin(robotAngle) - rightX;
-        double v3 = r * Math.sin(robotAngle) + rightX;
-        double v4 = r * Math.cos(robotAngle) - rightX;
+        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = gamepad1.right_stick_x;
+        final double v1 = r * Math.cos(robotAngle) + rightX;
+        final double v2 = r * Math.sin(robotAngle) - rightX;
+        final double v3 = r * Math.sin(robotAngle) + rightX;
+        final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        wheelFrontLeftMotor.setPower(v1);
-        wheelFrontRightMotor.setPower(v2);
-        wheelBackLeftMotor.setPower(v3);
-        wheelBackRightMotor.setPower(v4);
+        this.wheelFrontLeftMotor.setPower(v1);
+        this.wheelFrontRightMotor.setPower(v2);
+        this.wheelBackLeftMotor.setPower(v3);
+        this.wheelBackRightMotor.setPower(v4);
+
     }
 
     private void initializeWheels() {
