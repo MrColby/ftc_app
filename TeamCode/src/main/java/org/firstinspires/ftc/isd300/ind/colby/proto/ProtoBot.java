@@ -2,8 +2,11 @@ package org.firstinspires.ftc.isd300.ind.colby.proto;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,8 +14,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -27,6 +36,9 @@ public class ProtoBot {
     private Telemetry telemetry;
     private Gamepad gamepad1;
     private Gamepad gamepad2;
+    private BNO055IMU imu;
+
+    private boolean fieldCentric = false;
 
     private DcMotor wheelFrontRightMotor;
     private DcMotor  wheelFrontLeftMotor;
@@ -60,6 +72,7 @@ public class ProtoBot {
         this.initializeArm();
         this.initializeEyestalk();
         this.initializeVuforia();
+        initializeImu();
     }
 
     public RelicRecoveryVuMark getPictograph() {
@@ -89,20 +102,84 @@ public class ProtoBot {
     }
 
     public void drive() {
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + rightX;
-        final double v2 = r * Math.sin(robotAngle) - rightX;
-        final double v3 = r * Math.sin(robotAngle) + rightX;
-        final double v4 = r * Math.cos(robotAngle) - rightX;
+        double forward = -1*this.gamepad1.right_stick_y;
+        double right = this.gamepad1.right_stick_x;
+        double clockwise = this.gamepad1.left_stick_x;
+        double axisSensitivityScalingConstant = 0.01;
 
-        this.wheelFrontLeftMotor.setPower(v1);
-        this.wheelFrontRightMotor.setPower(v2);
-        this.wheelBackLeftMotor.setPower(v3);
-        this.wheelBackRightMotor.setPower(v4);
+
+
+        if (this.gamepad1.right_bumper) {
+            this.fieldCentric = false;
+        }
+        else if (this.gamepad1.left_bumper) {
+            this.fieldCentric = true;
+        }
+
+        if (fieldCentric) {
+            // for field centric support
+            Orientation angles = getGyroAngles();
+            float rotation = angles.firstAngle;
+            if (rotation < 0) rotation = 360 - Math.abs(rotation);
+            if (rotation > 360) rotation = rotation % 360;
+
+            message("ilu", "Rotation: " + rotation);
+
+
+
+            double temp = forward*Math.cos(rotation) + right*Math.sin(rotation);
+            right = -forward*Math.sin(rotation) + right*Math.cos(rotation);
+            forward = temp;
+
+            /*double temp = forward*Math.cos(rotation) - right*Math.sin(rotation);
+            right = forward*Math.sin(rotation) + right*Math.cos(rotation);
+            forward = temp;*/
+        }
+
+
+        double frontLeft = forward + clockwise + right;
+        double frontRight = forward - clockwise - right;
+        double rearLeft = forward + clockwise - right;
+        double rearRight = forward - clockwise + right;
+
+        double max = Math.abs(frontLeft);
+        if (Math.abs(frontRight)>max) max = Math.abs(frontRight);
+        if (Math.abs(rearLeft)>max) max = Math.abs(rearLeft);
+        if (Math.abs(rearRight)>max) max = Math.abs(rearRight);
+        if (max>1) {
+            frontLeft/=max; frontRight/=max; rearLeft/=max; rearRight/=max;
+        }
+
+        this.wheelFrontLeftMotor.setPower(frontLeft);
+        this.wheelFrontRightMotor.setPower(frontRight);
+        this.wheelBackLeftMotor.setPower(rearLeft);
+        this.wheelBackRightMotor.setPower(rearRight);
+
+
 
     }
+
+    private Orientation getGyroAngles() {
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        this.message("imu:",angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
+        return angles;
+    }
+
+    /*public void drive() {
+        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+        double rightY = gamepad1.right_stick_y;
+        final double frontLeft = r * Math.cos(robotAngle) - rightY;
+        final double frontRight = r * Math.sin(robotAngle) + rightY;
+        final double backLeft = r * Math.sin(robotAngle) - rightY;
+        final double backRight = r * Math.cos(robotAngle) + rightY;
+
+        this.wheelFrontLeftMotor.setPower(frontLeft);
+        this.wheelFrontRightMotor.setPower(frontRight);
+        this.wheelBackLeftMotor.setPower(backLeft);
+        this.wheelBackRightMotor.setPower(backRight);
+
+    }*/
 
     private void initializeWheels() {
         this.wheelFrontLeftMotor  = this.hardwareMap.get(DcMotor.class, "front_left");
@@ -111,9 +188,9 @@ public class ProtoBot {
         this.wheelBackRightMotor     = this.hardwareMap.get(DcMotor.class, "back_right");
 
         this.wheelFrontLeftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        this.wheelFrontRightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        this.wheelFrontRightMotor.setDirection(DcMotor.Direction.REVERSE);//
         this.wheelBackLeftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        this.wheelBackRightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        this.wheelBackRightMotor.setDirection(DcMotor.Direction.REVERSE);//
 
         this.wheelFrontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.wheelFrontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -155,6 +232,23 @@ public class ProtoBot {
         this.relicTemplate = relicTrackables.get(0);
         this.relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
         this.relicTrackables.activate();
+    }
+
+    private void initializeImu() {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 10);
     }
 
     private void message(String caption, String msg) {

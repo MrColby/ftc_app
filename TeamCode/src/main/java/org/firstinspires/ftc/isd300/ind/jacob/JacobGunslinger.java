@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-            }
+
 
 
 /**
@@ -14,20 +14,20 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
         @TeleOp(name="BestGunslinger", group="JacobGunslinger")
         public class JacobGunslinger extends LinearOpMode {
-            public void call(String caption, String message) {
-                telemetry.addData(caption, message);
-                telemetry.update();
-            }
-            public void runOpMode() throws InterruptedException {
-                this.waitForStart();
-                while (opModeIsActive()) {
-                    call("Now!!", "Shoot!");
+    public void call(String caption, String message) {
+        telemetry.addData(caption, message);
+        telemetry.update();
+    }
+
+    public void runOpMode() throws InterruptedException {
+        this.waitForStart();
+        while (opModeIsActive()) {
+            call("Now!!", "Shoot!");
 
 
-                }
-
-
+        }
 
 
     }
+}
 
