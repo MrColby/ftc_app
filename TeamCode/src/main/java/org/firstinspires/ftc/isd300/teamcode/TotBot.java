@@ -3,6 +3,7 @@ package org.firstinspires.ftc.isd300.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -33,9 +34,20 @@ public class TotBot {
     }
 
     public void drive(double frontLeft, double frontRight, double rearLeft, double rearRight) {
-        /**
-         *
-         */
+        double greatest = Math.abs(frontLeft);
+       if (Math.abs(frontRight)>greatest) greatest = Math.abs(frontRight);
+       if (Math.abs(rearLeft)>greatest) greatest = Math.abs(rearLeft);
+       if (Math.abs(rearRight)>greatest) greatest = Math.abs(rearRight);
+       if (greatest>1){
+           frontRight = frontRight / greatest;
+           frontLeft = frontLeft / greatest;
+           rearLeft = rearLeft / greatest;
+           rearRight /= greatest;
+       }
+       this.wheelFrontRightMotor.setPower(frontRight);
+       this.wheelFrontLeftMotor.setPower(frontLeft);
+       this.wheelBackRightMotor.setPower(rearRight);
+       this.wheelBackLeftMotor.setPower(rearLeft);
     }
 
     public void armUpDown(boolean up) {
@@ -64,6 +76,23 @@ public class TotBot {
         this.wheelFrontRightMotor = this.hardwareMap.get(DcMotor.class, "front_right");
         this.wheelBackLeftMotor = this.hardwareMap.get(DcMotor.class, "back_left");
         this.wheelBackRightMotor = this.hardwareMap.get(DcMotor.class, "back_right");
+
+        this.wheelFrontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        this.wheelBackLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        this.wheelFrontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        this.wheelBackRightMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        this.wheelFrontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.wheelFrontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.wheelBackRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.wheelBackLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        this.wheelBackLeftMotor.setPower(0);
+        this.wheelBackRightMotor.setPower(0);
+        this.wheelFrontLeftMotor.setPower(0);
+        this.wheelFrontRightMotor.setPower(0);
+
+
     }
 
 }
