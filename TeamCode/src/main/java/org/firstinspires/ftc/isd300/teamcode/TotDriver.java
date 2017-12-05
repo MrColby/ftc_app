@@ -48,5 +48,11 @@ public class TotDriver extends LinearOpMode {
         double clockwise = this.gamepad1.left_stick_x;
         
     }
+    private void drive(){
+        double forward = -1 * this.gamepad1.right_stick_y;
+        double right = this.gamepad1.right_stick_x;
+        double clockwise = this.gamepad1.left_stick_x;
+        
+    }
 }
 
