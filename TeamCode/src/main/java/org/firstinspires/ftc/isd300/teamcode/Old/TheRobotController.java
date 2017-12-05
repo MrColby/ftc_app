@@ -1,20 +1,19 @@
-package org.firstinspires.ftc.isd300.ind.jack;
+package org.firstinspires.ftc.isd300.teamcode.Old;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.isd300.ind.courtney.CPRoboto;
+import org.firstinspires.ftc.isd300.teamcode.Old.TheRobot;
 
-import java.util.Random;
 
 /**
  * Created by colbyl on 10/3/2017.
  */
-@TeleOp(name="TheRobotController", group="jack")
+@TeleOp(name="TheTeamRobotController", group="team")
 
-public class TileRunnerController extends LinearOpMode {
+public class TheRobotController extends LinearOpMode {
 
-    TheRobot  robot;
+    TheRobot robot;
 
         /*Random random = new Random();
         int num = random.nextInt(5);
@@ -35,6 +34,7 @@ public class TileRunnerController extends LinearOpMode {
           robot.driveX(this.gamepad1);
           robot.driveTL(this.gamepad1);
           robot.drivedTR(this.gamepad1);
+          robot.setEyeStalkPosition(this.gamepad1);
 
         }
     }

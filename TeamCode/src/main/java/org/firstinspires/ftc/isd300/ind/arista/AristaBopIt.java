@@ -1,20 +1,22 @@
-package org.firstinspires.ftc.isd300.ind.alyssa;
+package org.firstinspires.ftc.isd300.ind.arista;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.util.Random;
 
 /**
- * Created by colbyl on 10/5/2017.
- */
-@TeleOp(name="PandaRobotController", group="Panda")
-public class RobotController extends LinearOpMode {
-    private Panda panda;
+* Created by whiar on 12/3/2017.
+*/
+@TeleOp(name="AristaPandaBopIt", group="Panda")
+public class AristaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        panda = new Panda(this.telemetry);
-        panda.call("alert", "panda");
+
+        int score = 0;
+        int countDracula = 0;
+
         this.waitForStart();
         String message;
         boolean lost = false;
@@ -24,6 +26,7 @@ public class RobotController extends LinearOpMode {
             int choice = rand.nextInt(8);
             if (choice == 0) {
                 call("alert", "push A button");
+
             }
             else if (choice == 1) {
                 call("alert", "push B button");
@@ -53,7 +56,7 @@ public class RobotController extends LinearOpMode {
             }
 
             if (choice == 0 && (gamepad1.a == false)) {
-                    lost = true;
+                lost = true;
             }
             else if (choice == 1 && (gamepad1.b == false)) {
                 lost = true;
@@ -77,16 +80,26 @@ public class RobotController extends LinearOpMode {
                 lost = true;
             }
             else {
-                time = .9*time;
+                score++;
+                countDracula++;
+                if (countDracula == 3) {
+                    time = .9 * time;
+                    countDracula = 0;
+                }
             }
 
         }
+        this.telemetry.addData("","your score is "+ score) ;
+        this.telemetry.update();
+        waitForALittleBit(2500);
     }
-    public int countUp (int x) {
-        x = x + 1;
-        panda.call("alert", "you have " + x + " seconds");
-        return x;
-    }
+    private void waitForALittleBit(double time){
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.milliseconds() < time) {
+        }
+    };
+
     public void call(String caption, String message) {
         telemetry.addData(caption, message);
         telemetry.update();
