@@ -18,14 +18,29 @@ public class TotDriver extends LinearOpMode {
 
         this.waitForStart();
         while (this.opModeIsActive()) {
-
+            drive();
         }
+        totBot.drive(0, 0, 0, 0);
     }
+  /*  private void raiseOrLowerEyestalk() {
+        if (this.gamepad1.left_bumper) {
+            this.totBot.lowerEyestalk();
+        }
+        else if (this.gamepad1.right_bumper) {
+            this.totBot.raiseEyestalk();
+        }
+    }*/
     private void drive(){
         double forward = -1 * this.gamepad1.right_stick_y;
         double right = this.gamepad1.right_stick_x;
         double clockwise = this.gamepad1.left_stick_x;
-        
+
+        double frontLeft = forward + clockwise + right;
+        double frontRight = forward - clockwise - right;
+        double rearLeft = forward + clockwise - right;
+        double rearRight = forward - clockwise + right;
+
+        totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
     }
 }
 
