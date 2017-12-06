@@ -6,8 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * Created by whiar on 12/3/2017.
@@ -22,6 +26,10 @@ public class TotBot {
     private DcMotor wheelBackLeftMotor;
     private DcMotor wheelBackRightMotor;
 
+    private VuforiaLocalizer vuforia;
+    private VuforiaTrackables relicTrackables;
+    private VuforiaTrackable relicTemplate;
+
     public static final int COLOR_UNKNOWN = 0;
     public static final int COLOR_RED = 1;
     public static final int COLOR_GREEN = 2;
@@ -31,6 +39,13 @@ public class TotBot {
         this.hardwareMap = ardwareMap;
         this.telemetry = elemtry;
         this.intializewheels();
+        this.initializationvuforia();
+    }
+
+    public RelicRecoveryVuMark getPictograph() {
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        //message("Pictograph", vuMark + "");
+        return vuMark;
     }
 
     public void drive(double frontLeft, double frontRight, double rearLeft, double rearRight) {
@@ -91,7 +106,18 @@ public class TotBot {
         this.wheelBackRightMotor.setPower(0);
         this.wheelFrontLeftMotor.setPower(0);
         this.wheelFrontRightMotor.setPower(0);
+    }
 
+    private void initializationvuforia() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.vuforiaLicenseKey = "ARwYsgn/////AAAAGdnqVxXGf0FGosxoyPdT4+QytPJ1N6S60MJfFRlQ2F3BJCxLMYxkVonlquEdJiynVouUNxQCtG8RTiGlWsMYDbtiv+MK+k2fxCZNK7EFkIiJHWNE1C/BxphLZcTnDtUYvqPIQloGWRAULJz8kB/k7HrD1tV6yIGgchNZg598BPY1RFh7Z2q898lZCHLRNIlSIvznkrbrVg/b0hnwWQ2YFxaWv6QHGWjPJSGkbkqYDnOkG3BCZcvEDy71Fd7uqxTHN7Pfn0jsJHm4McgtbTzCZy1cG7pRruSfmRO6kfJK/z9mDBMeIvPDL+9SssxOZ7WtQjokfaO2l/JtlGigUkd7y6tXj1xy4XGE5JBdjMaFRSD4";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        this.relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        this.relicTemplate = relicTrackables.get(0);
+        this.relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+        this.relicTrackables.activate();
 
     }
 
