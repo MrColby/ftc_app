@@ -44,7 +44,7 @@ public class TotBot {
 
     public RelicRecoveryVuMark getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        //message("Pictograph", vuMark + "");
+        call("Pictograph", vuMark + "");
         return vuMark;
     }
 
@@ -71,10 +71,6 @@ public class TotBot {
 
     public void armGrabRelease(boolean close) {
 
-    }
-
-    public RelicRecoveryVuMark vuphoriaScanner() {
-        return null;
     }
 
     public void eyestalkMove(boolean up) {
@@ -120,5 +116,8 @@ public class TotBot {
         this.relicTrackables.activate();
 
     }
-
+    public void call(String caption, String message) {
+        telemetry.addData(caption, message);
+        telemetry.update();
+    }
 }
