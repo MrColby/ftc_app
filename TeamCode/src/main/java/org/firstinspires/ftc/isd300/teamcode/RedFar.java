@@ -10,6 +10,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class RedFar extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
+        Autotamouse marmotot =  new Autotamouse(false, false, telemetry, hardwareMap);
+        this.waitForStart();
+        marmotot.runMission();
+        while (this.opModeIsActive()) {
+
+        }
 
     }
 }
