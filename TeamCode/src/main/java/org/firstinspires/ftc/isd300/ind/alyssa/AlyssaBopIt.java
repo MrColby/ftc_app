@@ -15,7 +15,6 @@ public class AlyssaBopIt extends LinearOpMode {
 
         int score = 0;
 
-
         this.waitForStart();
         String message;
         boolean lost = false;
