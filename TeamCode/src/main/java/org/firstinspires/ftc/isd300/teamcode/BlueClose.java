@@ -2,6 +2,7 @@ package org.firstinspires.ftc.isd300.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -12,12 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class BlueClose extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
-        Autotamouse marmotot =  new Autotamouse(false, false, telemetry, hardwareMap);
-        this.waitForStart();
+        Autotamouse marmotot =  new Autotamouse(false, false, this);
         marmotot.runMission();
-        while (this.opModeIsActive()) {
-
-        }
-
     }
 }
