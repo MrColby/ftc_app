@@ -32,6 +32,15 @@ public class TotBot {
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
 
+    private Servo eyeStalkServo;
+
+    private ColorSensor eyeStalkColorSensor;
+    private DistanceSensor eyeStalkDistanceSensor;
+
+    private DcMotor armMotor;
+    private Servo leftHandServo;
+    private Servo rightHandServo;
+
     private DcMotor wheelFrontRightMotor;
     private DcMotor wheelFrontLeftMotor;
     private DcMotor wheelBackLeftMotor;
@@ -51,6 +60,9 @@ public class TotBot {
         this.telemetry = elemtry;
         this.intializewheels();
         this.initializeVuforia();
+
+        this.initializeEyestalk();
+
     }
 
     public RelicRecoveryVuMark getPictograph() {
@@ -75,6 +87,21 @@ public class TotBot {
        this.wheelBackRightMotor.setPower(rearRight);
        this.wheelBackLeftMotor.setPower(rearLeft);
     }
+    private void initializeArm(){
+        this.leftHandServo = this.hardwareMap.get(Servo.class,"left_hand");
+        this.rightHandServo = this.hardwareMap.get(Servo.class,"right_hand");
+        this.leftHandServo.setPosition(0.5);
+        this.rightHandServo.setPosition(0.5);
+    }
+    private void initializeEyestalk(){
+        this.eyeStalkServo = this.hardwareMap.get(Servo.class, "eyestalk_servo");
+        this.eyeStalkColorSensor = hardwareMap.get(ColorSensor.class, "eyestalk_sensor");
+        this.eyeStalkDistanceSensor = hardwareMap.get(DistanceSensor.class, "eyestalk_sensor");
+        this.eyeStalkServo.setPosition(0.5);
+    }
+
+
+
 
     public void armUpDown(boolean up) {
 
@@ -84,8 +111,22 @@ public class TotBot {
 
     }
 
-    public void eyestalkMove(boolean up) {
+    public void riaseEyestalk(){
+        this.eyeStalkServo.setPosition(0.9);
+    }
 
+    public void lowerEyestalk(){
+        this.eyeStalkServo.setPosition(0.1);
+    }
+
+    public void openHands(){
+        this.leftHandServo.setPosition(0.9);
+        this.rightHandServo.setPosition(0.9);
+    }
+
+    public void closeHands(){
+        this.leftHandServo.setPosition(.45);
+        this.rightHandServo.setPosition(.45);
     }
 
     public int eyestalkSense() {
