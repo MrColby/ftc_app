@@ -69,33 +69,36 @@ public class PilotedMission extends LinearOpMode {
     private void drive() {
         double forward = -1*this.gamepad1.right_stick_y;
         double right = this.gamepad1.right_stick_x;
-        double clockwise = this.gamepad1.left_stick_x;
-        double axisSensitivityScalingConstant = 0.01;
 
-
-
-
+        // multiply the rotation by a scaling constant. Never more than 1.0!
+        double clockwise = (0.9) * this.gamepad1.left_stick_x;
 
 
         if (fieldCentric) {
             // for field centric support
             Orientation angles = protoBot.getGyroAngles();
             float rotation = angles.firstAngle;
-            if (rotation < 0) rotation = 360 - Math.abs(rotation);
-            if (rotation > 360) rotation = rotation % 360;
+            //if (rotation < 0) rotation = 360 - Math.abs(rotation);
+            //if (rotation > 360) rotation = rotation % 360;
 
-            protoBot.message("ilu", "Rotation: " + rotation);
+            this.telemetry.addData("", "Rotation: " + rotation);
 
 
+            // rotation is measured conter-clockwise
+            double cos = Math.cos(rotation);
+            double sin = Math.sin(rotation);
 
-            double temp = forward*Math.cos(rotation) + right*Math.sin(rotation);
-            right = -forward*Math.sin(rotation) + right*Math.cos(rotation);
-            forward = temp;
+            //this.telemetry.addData("", "Cos: " + cos);
+            //this.telemetry.addData("", "Sin: " + sin);
 
-            /*double temp = forward*Math.cos(rotation) - right*Math.sin(rotation);
-            right = forward*Math.sin(rotation) + right*Math.cos(rotation);
-            forward = temp;*/
+
+            // calculate the new forward setting and store it temporarily
+            double newForward = forward*cos - right*sin;
+            right = forward*sin + right*cos;
+            forward = newForward;
         }
+
+
 
 
         double frontLeft = forward + clockwise + right;
@@ -110,6 +113,12 @@ public class PilotedMission extends LinearOpMode {
         if (max>1) {
             frontLeft/=max; frontRight/=max; rearLeft/=max; rearRight/=max;
         }
+
+        this.telemetry.addData("", "frontLeft: " + frontLeft);
+        this.telemetry.addData("", "frontRight: " + frontRight);
+        this.telemetry.addData("", "rearLeft: " + rearLeft);
+        this.telemetry.addData("", "rearRight: " + rearRight);
+        this.telemetry.update();
 
         protoBot.drive(frontLeft, frontRight, rearLeft, rearRight);
 
