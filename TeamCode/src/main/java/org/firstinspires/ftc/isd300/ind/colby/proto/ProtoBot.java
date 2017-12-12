@@ -71,7 +71,7 @@ public class ProtoBot {
 
     public RelicRecoveryVuMark getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        //message("Pictograph", vuMark + "");
+        message("Pictograph", vuMark + "");
         return vuMark;
     }
 

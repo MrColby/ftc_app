@@ -1,14 +1,25 @@
 package org.firstinspires.ftc.isd300.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import android.graphics.Color;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -20,6 +31,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class TotBot {
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
+
+    private Servo eyeStalkServo;
+
+    private ColorSensor eyeStalkColorSensor;
+    private DistanceSensor eyeStalkDistanceSensor;
+
+    private DcMotor armMotor;
+    private Servo leftHandServo;
+    private Servo rightHandServo;
 
     private DcMotor wheelFrontRightMotor;
     private DcMotor wheelFrontLeftMotor;
@@ -39,7 +59,10 @@ public class TotBot {
         this.hardwareMap = ardwareMap;
         this.telemetry = elemtry;
         this.intializewheels();
-        this.initializationvuforia();
+        this.initializeVuforia();
+
+        this.initializeEyestalk();
+
     }
 
     public RelicRecoveryVuMark getPictograph() {
@@ -64,6 +87,21 @@ public class TotBot {
        this.wheelBackRightMotor.setPower(rearRight);
        this.wheelBackLeftMotor.setPower(rearLeft);
     }
+    private void initializeArm(){
+        this.leftHandServo = this.hardwareMap.get(Servo.class,"left_hand");
+        this.rightHandServo = this.hardwareMap.get(Servo.class,"right_hand");
+        this.leftHandServo.setPosition(0.5);
+        this.rightHandServo.setPosition(0.5);
+    }
+    private void initializeEyestalk(){
+        this.eyeStalkServo = this.hardwareMap.get(Servo.class, "eyestalk_servo");
+        this.eyeStalkColorSensor = hardwareMap.get(ColorSensor.class, "eyestalk_sensor");
+        this.eyeStalkDistanceSensor = hardwareMap.get(DistanceSensor.class, "eyestalk_sensor");
+        this.eyeStalkServo.setPosition(0.5);
+    }
+
+
+
 
     public void armUpDown(boolean up) {
 
@@ -73,8 +111,22 @@ public class TotBot {
 
     }
 
-    public void eyestalkMove(boolean up) {
+    public void riaseEyestalk(){
+        this.eyeStalkServo.setPosition(0.9);
+    }
 
+    public void lowerEyestalk(){
+        this.eyeStalkServo.setPosition(0.1);
+    }
+
+    public void openHands(){
+        this.leftHandServo.setPosition(0.9);
+        this.rightHandServo.setPosition(0.9);
+    }
+
+    public void closeHands(){
+        this.leftHandServo.setPosition(.45);
+        this.rightHandServo.setPosition(.45);
     }
 
     public int eyestalkSense() {
@@ -104,7 +156,7 @@ public class TotBot {
         this.wheelFrontRightMotor.setPower(0);
     }
 
-    private void initializationvuforia() {
+    private void initializeVuforia() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters.vuforiaLicenseKey = "ARwYsgn/////AAAAGdnqVxXGf0FGosxoyPdT4+QytPJ1N6S60MJfFRlQ2F3BJCxLMYxkVonlquEdJiynVouUNxQCtG8RTiGlWsMYDbtiv+MK+k2fxCZNK7EFkIiJHWNE1C/BxphLZcTnDtUYvqPIQloGWRAULJz8kB/k7HrD1tV6yIGgchNZg598BPY1RFh7Z2q898lZCHLRNIlSIvznkrbrVg/b0hnwWQ2YFxaWv6QHGWjPJSGkbkqYDnOkG3BCZcvEDy71Fd7uqxTHN7Pfn0jsJHm4McgtbTzCZy1cG7pRruSfmRO6kfJK/z9mDBMeIvPDL+9SssxOZ7WtQjokfaO2l/JtlGigUkd7y6tXj1xy4XGE5JBdjMaFRSD4";
