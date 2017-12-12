@@ -212,7 +212,7 @@ public class ProtoBot {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
@@ -222,7 +222,7 @@ public class ProtoBot {
         // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 10);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 0);
     }
 
     public void message(String caption, String msg) {
