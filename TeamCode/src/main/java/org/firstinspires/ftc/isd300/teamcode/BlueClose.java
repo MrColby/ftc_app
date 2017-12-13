@@ -15,5 +15,6 @@ public class BlueClose extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
         Autotamouse marmotot =  new Autotamouse(false, false, this);
         marmotot.runMission();
+
     }
 }
