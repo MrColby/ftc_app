@@ -32,6 +32,8 @@ public class TotBot {
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
 
+    private BNO055IMU imu;
+
     private Servo eyeStalkServo;
 
     private ColorSensor eyeStalkColorSensor;
@@ -172,4 +174,34 @@ public class TotBot {
         telemetry.addData(caption, message);
         telemetry.update();
     }
+
+    public Orientation getGyroAngles() {
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        this.message("imu:", angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
+        return angles;
+    }
+
+    private void initializeImu() {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 10);
+    }
+
+    public void message(String caption, String msg) {
+        this.telemetry.addData(caption, msg);
+        this.telemetry.update();
+    }
+
+
 }
