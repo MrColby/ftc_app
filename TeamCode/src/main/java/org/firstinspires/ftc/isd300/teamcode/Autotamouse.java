@@ -2,6 +2,7 @@ package org.firstinspires.ftc.isd300.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -29,6 +30,21 @@ public class Autotamouse {
 
         this.linearOpMode.waitForStart();
 
+        drive(.6, 0);
+
+        ElapsedTime timer=new ElapsedTime();
+        while (timer.milliseconds()<3000) {
+
+        }
+        drive(0, 0);
+        twirl(.5);
+        timer.reset();
+        while (timer.milliseconds()<1000) {
+
+        }
+        drive(0, 0);
+
+
         while (this.linearOpMode.opModeIsActive()) {
 
             this.totBot.getPictograph();
@@ -36,4 +52,24 @@ public class Autotamouse {
         }
 
     }
+
+    private void drive (double forward, double right){
+        double frontLeft = forward  + right;
+        double frontRight = forward  - right;
+        double rearLeft = forward  - right;
+        double rearRight = forward  + right;
+
+        totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+    }
+
+    private void twirl (double twirl){
+        double frontLeft = twirl;
+        double frontRight = -twirl;
+        double rearLeft = twirl;
+        double rearRight = -twirl;
+
+        totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+    }
+
+
 }
