@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.braeden;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by colbyl on 10/6/2017.
  */
 @TeleOp(name="RobotOverlordsOrders", group="Braeden")
+@Disabled
 public class RobotOverlord extends LinearOpMode {
 
 

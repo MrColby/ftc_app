@@ -68,6 +68,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="jack's: Auto Drive By Encoder", group="jack")
+@Disabled
 public class JackDistanceDrive extends LinearOpMode {
 
     /* Declare OpMode members. */

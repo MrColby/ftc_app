@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.novalee;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,6 +9,7 @@ import java.util.Random;
  * Created by colbyl on 11/10/2017.
  */
 @TeleOp(name="Novaleebopit", group="Novalee")
+@Disabled
 public class NovaleeBopit extends LinearOpMode {
 
     private static final int X = 0;
