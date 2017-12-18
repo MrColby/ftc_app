@@ -67,6 +67,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name="jacks umark ID")
+@Disabled
 public class vumarkpictographs extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
