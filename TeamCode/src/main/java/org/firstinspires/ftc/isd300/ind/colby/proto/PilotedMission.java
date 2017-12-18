@@ -37,11 +37,17 @@ public class PilotedMission extends LinearOpMode {
 
     private void raiseOrLowerEyestalk() {
         if (this.gamepad1.left_bumper) {
+            this.telemetry.addData("DEBUG", "lowerEyeStalk");
             this.protoBot.lowerEyestalk();
         }
         else if (this.gamepad1.right_bumper) {
+            this.telemetry.addData("DEBUG", "raiseEyestalk");
             this.protoBot.raiseEyestalk();
         }
+        else {
+            this.telemetry.addData("DEBUG", "no eyestalk cmd");
+        }
+        telemetry.update();
     }
 
     private void openOrCloseHands() {

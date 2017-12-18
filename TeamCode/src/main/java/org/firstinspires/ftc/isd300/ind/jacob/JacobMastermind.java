@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.jacob;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,6 +13,7 @@ import java.util.Random;
  * Created by colbyl on 11/18/2017.
  */
 @TeleOp(name="JacobMasterMind",group="Jacob")
+@Disabled
 public class JacobMastermind extends LinearOpMode{
 
 

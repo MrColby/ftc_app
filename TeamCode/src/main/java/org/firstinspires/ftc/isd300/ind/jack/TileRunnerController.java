@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.jack;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +12,7 @@ import java.util.Random;
  * Created by colbyl on 10/3/2017.
  */
 @TeleOp(name="TheRobotController", group="jack")
+@Disabled
 
 public class TileRunnerController extends LinearOpMode {
 

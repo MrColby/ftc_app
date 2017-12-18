@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.cody;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,6 +12,7 @@ import java.util.Random;
  */
 
 @TeleOp(name="CodyRobotController", group="Cody")
+@Disabled
 public class CodyRobotController extends LinearOpMode {
 
    // Cobot myRobot;
