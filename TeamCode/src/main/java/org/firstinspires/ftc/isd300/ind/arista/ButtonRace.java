@@ -63,7 +63,7 @@ public class ButtonRace extends LinearOpMode {
             }
             timer.reset();
             while(timer.milliseconds()<3000){
-                
+
             }
         }
     }
