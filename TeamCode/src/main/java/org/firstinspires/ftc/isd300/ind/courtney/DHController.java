@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.courtney;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +10,7 @@ import java.util.Random;
  * Created by colbyl on 10/3/2017.
  */
 @TeleOp(name="DHController", group="Courtney")
-
+@Disabled
 public class DHController extends LinearOpMode {
 
     CPRoboto robot;

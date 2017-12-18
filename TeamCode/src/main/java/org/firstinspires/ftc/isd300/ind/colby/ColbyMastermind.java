@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.colby;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -16,6 +17,7 @@ import java.util.Random;
  */
 
 @TeleOp(name="ColbyMastermind", group="Colby")
+@Disabled
 public class ColbyMastermind extends LinearOpMode {
 
     // CODE_LENGTH defines how many 'pegs' need to be guessed

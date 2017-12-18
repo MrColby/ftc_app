@@ -33,6 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.isd300.ind.colby;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -45,6 +46,7 @@ import java.util.Random;
  */
 
 @TeleOp(name="Colby Test", group="Colby")
+@Disabled
 public class ColbyTest extends LinearOpMode {
 
     private Robot robot;
