@@ -2,6 +2,7 @@ package org.firstinspires.ftc.isd300.ind.colby.proto;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by colbyl on 12/2/2017.
@@ -26,6 +27,18 @@ public class AutonomousMission {
         this.position = pPosition;
 
         protoBot = new ProtoBot(this.linearOpMode.hardwareMap, this.linearOpMode.telemetry);
+
+        linearOpMode.waitForStart();
+
+        protoBot.lowerEyestalk();
+        int color = protoBot.getEyestalkColor();
+        protoBot.message("I don't know","color is: "+color);
+        ElapsedTime time = new ElapsedTime();
+        while (time.milliseconds() < 3000){
+
+        }
+
+
 
 
 
