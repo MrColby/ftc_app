@@ -99,7 +99,7 @@ public class ProtoBot {
         message("Color sensor", hsvValues[0]+", " + hsvValues[1] + ", " + hsvValues[2]);
         if (hsvValues[0] > hsvValues[1] && hsvValues[0] > hsvValues[2]) return COLOR_RED;
         else if (hsvValues[1] > hsvValues[0] && hsvValues[1] > hsvValues[2]) return COLOR_GREEN;
-        else if (hsvValues[2] > hsvValues[0] && hsvValues[2] > hsvValues[1]) return COLOR_RED;
+        else if (hsvValues[2] > hsvValues[0] && hsvValues[2] > hsvValues[1]) return COLOR_BLUE;
         return COLOR_UNKNOWN;
 
     }
