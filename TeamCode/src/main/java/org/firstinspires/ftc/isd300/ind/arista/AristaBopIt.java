@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.arista;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,6 +11,7 @@ import java.util.Random;
 * Created by whiar on 12/3/2017.
 */
 @TeleOp(name="AristaPandaBopIt", group="Panda")
+@Disabled
 public class AristaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

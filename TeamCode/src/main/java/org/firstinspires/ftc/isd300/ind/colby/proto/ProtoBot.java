@@ -71,7 +71,7 @@ public class ProtoBot {
 
     public RelicRecoveryVuMark getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        message("Pictograph", vuMark + "");
+        //message("Pictograph", vuMark + "");
         return vuMark;
     }
 
@@ -81,7 +81,8 @@ public class ProtoBot {
     }
 
     public void raiseEyestalk() {
-        this.eyeStalkServo.setPosition(.9);
+
+        this.eyeStalkServo.setPosition(.75);
     }
 
     public void lowerEyestalk() {
@@ -95,10 +96,10 @@ public class ProtoBot {
                 (int) (eyeStalkColorSensor.green() * SCALE_FACTOR),
                 (int) (eyeStalkColorSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-        //message("Color sensor", hsvValues[0]+", " + hsvValues[1] + ", " + hsvValues[2]);
+        message("Color sensor", hsvValues[0]+", " + hsvValues[1] + ", " + hsvValues[2]);
         if (hsvValues[0] > hsvValues[1] && hsvValues[0] > hsvValues[2]) return COLOR_RED;
         else if (hsvValues[1] > hsvValues[0] && hsvValues[1] > hsvValues[2]) return COLOR_GREEN;
-        else if (hsvValues[2] > hsvValues[0] && hsvValues[2] > hsvValues[1]) return COLOR_RED;
+        else if (hsvValues[2] > hsvValues[0] && hsvValues[2] > hsvValues[1]) return COLOR_BLUE;
         return COLOR_UNKNOWN;
 
     }
@@ -124,18 +125,22 @@ public class ProtoBot {
 
     public Orientation getGyroAngles() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        this.message("imu:",angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
+        //this.message("imu:",angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
         return angles;
     }
 
     public void openHands() {
-        this.leftHandServo.setPosition(.9);
-        this.rightHandServo.setPosition(.9);
+        // to open more, decrease left and increase right
+        double percentOpen = 0.7;
+        this.leftHandServo.setPosition(1-percentOpen);
+        this.rightHandServo.setPosition(percentOpen);
     }
-
+        // Changed only right hand from .9 to .45 and vice versa
     public void closeHands() {
-        this.leftHandServo.setPosition(.45);
-        this.rightHandServo.setPosition(.45);
+        // to close more, increase left and decrease right
+        double percentClosed = 0.52;
+        this.leftHandServo.setPosition(percentClosed);
+        this.rightHandServo.setPosition(1-percentClosed);
     }
     /*public void drive() {
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);

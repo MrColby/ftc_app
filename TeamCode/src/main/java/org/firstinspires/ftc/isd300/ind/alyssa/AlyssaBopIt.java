@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.alyssa;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,6 +10,7 @@ import java.util.Random;
  * Created by colbyl on 10/5/2017.
  */
 @TeleOp(name="AlyssaPandaBopIt", group="Panda")
+@Disabled
 public class AlyssaBopIt extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
