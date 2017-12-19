@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 /**
  * Created by colbyl on 12/2/2017.
  */
@@ -21,6 +23,30 @@ public class AutonomousMission {
 
     private ProtoBot protoBot;
 
+    private void twirl (double angle, double power){
+        Orientation angles = protoBot.getGyroAngles();
+        /*this.twirl(power);
+        while (angles.firstAngle < angle){
+
+        }
+        this.twirl(0);*/
+
+        protoBot.message ("test","Current angle: " + angles.firstAngle);
+
+    }
+
+    private void twirl (double power){
+        double frontLeft = power;
+        double frontRight = -power;
+        double rearLeft = power;
+        double rearRight = -power;
+
+        protoBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+
+
+
+    }
+
     public AutonomousMission(LinearOpMode pLinearOpMode, int pColor, int pPosition) {
         this.linearOpMode = pLinearOpMode;
         this.color = pColor;
@@ -28,15 +54,8 @@ public class AutonomousMission {
 
         protoBot = new ProtoBot(this.linearOpMode.hardwareMap, this.linearOpMode.telemetry);
 
-        linearOpMode.waitForStart();
 
-        protoBot.lowerEyestalk();
-        int color = protoBot.getEyestalkColor();
-        protoBot.message("I don't know","color is: "+color);
-        ElapsedTime time = new ElapsedTime();
-        while (time.milliseconds() < 3000){
 
-        }
 
 
 
@@ -48,11 +67,39 @@ public class AutonomousMission {
 
         this.linearOpMode.waitForStart();
 
-        while (this.linearOpMode.opModeIsActive()) {
 
-            this.protoBot.getPictograph();
+        while (this.linearOpMode.opModeIsActive()) {
+            this.twirl(90, .5);
+        }
+
+        /*
+
+
+        protoBot.lowerEyestalk();
+
+        ElapsedTime time = new ElapsedTime();
+        while (time.milliseconds() < 500) {
 
         }
+
+        int color = protoBot.getEyestalkColor();
+        if (this.color == RED && this.position == FRONT) {
+            if(color == ProtoBot.COLOR_RED){
+                this.twirl(0.5);
+            }
+            else if(color == ProtoBot.COLOR_BLUE){
+                this.twirl(-0.5);
+            }
+        }
+
+
+        time.reset();
+        while (time.milliseconds() < 500){
+
+        }
+        this.twirl(0);
+        //protoBot.message("I don't know","color is: "+color);
+    */
 
     }
 }
