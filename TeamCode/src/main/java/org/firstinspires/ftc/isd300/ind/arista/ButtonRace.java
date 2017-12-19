@@ -16,6 +16,8 @@ public class ButtonRace extends LinearOpMode {
 
     public static final int A = 0;
     public static final int B = 1;
+    public static final int X = 2;
+    public static final int Y = 3;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -34,6 +36,12 @@ public class ButtonRace extends LinearOpMode {
             else if (choice == B) {
                 call("alert", "push B button");
             }
+            else if (choice == X) {
+                call("alert", "push X button");
+            }
+            else if (choice == Y) {
+                call("alert", "push Y button");
+            }
             boolean user1Choice = false;
             boolean user2Choice = false;
             while(true){
@@ -44,6 +52,14 @@ public class ButtonRace extends LinearOpMode {
                 else if (choice == B){
                     user1Choice = this.gamepad1.b;
                     user2Choice = this.gamepad2.b;
+                }
+                else if (choice == X){
+                    user1Choice = this.gamepad1.x;
+                    user2Choice = this.gamepad2.x;
+                }
+                else if (choice == Y){
+                    user1Choice = this.gamepad1.y;
+                    user2Choice = this.gamepad2.y;
                 }
                 if(user1Choice||user2Choice) {
                     break;
