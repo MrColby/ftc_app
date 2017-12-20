@@ -32,6 +32,7 @@ public class AutonomousMission {
         Orientation angles = protoBot.getGyroAngles();
         double startingPosition = angles.firstAngle;
 
+
         double desiredPosition;
         if (clockwise) {
            desiredPosition = startingPosition - desiredDegreeOfTurn;
@@ -51,9 +52,16 @@ public class AutonomousMission {
 
         boolean keepTurning = true;
 
+        // turning: 90
+        // started: -0.0
+        // current: -0.3423
+        // desired: 270
         while ( keepTurning ){
-            protoBot.message ("test","Turning " + desiredDegreeOfTurn + " degrees. Started at " + startingPosition + " and now at " + currentPosition);
-            currentPosition = angles.firstAngle;
+            currentPosition = protoBot.getGyroAngles().firstAngle;
+            if (currentPosition < 0) {
+                currentPosition = 360 + currentPosition;
+            }
+            protoBot.message ("test","Turning: " + desiredDegreeOfTurn + "; Started: " + startingPosition + "; Current:  " + currentPosition + "; Desired: " +desiredPosition);
             if (clockwise) {
                 if (currentPosition <= desiredPosition) {
                     keepTurning = false;
@@ -65,8 +73,13 @@ public class AutonomousMission {
                 }
             }
         }
+
         this.twirl(0);
 
+        ElapsedTime timer = new ElapsedTime();
+        while (timer.milliseconds()<10000) {
+
+        }
 
 
     }
@@ -104,9 +117,9 @@ public class AutonomousMission {
         this.linearOpMode.waitForStart();
 
 
-        while (this.linearOpMode.opModeIsActive()) {
+
             this.twirl(90, .5, true);
-        }
+
 
         /*
 
