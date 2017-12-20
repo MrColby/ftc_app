@@ -129,6 +129,7 @@ public class ProtoBot {
 
     public Orientation getGyroAngles() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
         //this.message("imu:",angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
         return angles;
     }

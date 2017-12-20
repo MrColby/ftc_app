@@ -23,15 +23,51 @@ public class AutonomousMission {
 
     private ProtoBot protoBot;
 
-    private void twirl (double angle, double power){
-        Orientation angles = protoBot.getGyroAngles();
-        /*this.twirl(power);
-        while (angles.firstAngle < angle){
-
+    private void twirl (double desiredDegreeOfTurn, double power, boolean clockwise){
+        power = Math.abs(power);
+        if (!clockwise) {
+            power = -1 * Math.abs(power);
         }
-        this.twirl(0);*/
 
-        protoBot.message ("test","Current angle: " + angles.firstAngle);
+        Orientation angles = protoBot.getGyroAngles();
+        double startingPosition = angles.firstAngle;
+
+        double desiredPosition;
+        if (clockwise) {
+           desiredPosition = startingPosition - desiredDegreeOfTurn;
+           if (desiredPosition < 0) {
+               desiredPosition = desiredPosition + 360;
+           }
+        }
+        else {
+           desiredPosition = startingPosition + desiredDegreeOfTurn;
+           if (desiredPosition >=360) {
+               desiredPosition = desiredPosition - 360;
+           }
+        }
+
+        this.twirl(power);
+        double currentPosition = protoBot.getGyroAngles().firstAngle;
+
+        boolean keepTurning = true;
+
+        while ( keepTurning ){
+            protoBot.message ("test","Turning " + desiredDegreeOfTurn + " degrees. Started at " + startingPosition + " and now at " + currentPosition);
+            currentPosition = angles.firstAngle;
+            if (clockwise) {
+                if (currentPosition <= desiredPosition) {
+                    keepTurning = false;
+                }
+            }
+            else {
+                if (currentPosition >= desiredPosition) {
+                    keepTurning = false;
+                }
+            }
+        }
+        this.twirl(0);
+
+
 
     }
 
@@ -69,7 +105,7 @@ public class AutonomousMission {
 
 
         while (this.linearOpMode.opModeIsActive()) {
-            this.twirl(90, .5);
+            this.twirl(90, .5, true);
         }
 
         /*
