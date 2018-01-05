@@ -82,21 +82,25 @@ public class ProtoBot {
 
     public void raiseEyestalk() {
 
-        this.eyeStalkServo.setPosition(.75);
-    }
-
-    public void lowerEyestalk() {
         this.eyeStalkServo.setPosition(.1);
     }
 
+    public void lowerEyestalk() {
+        this.eyeStalkServo.setPosition(.9);
+    }
+
     public int getEyestalkColor() {
+
+
+        message("Color sensor", eyeStalkColorSensor.red()+", " + eyeStalkColorSensor.green() + ", " + eyeStalkColorSensor.blue());
+
         double SCALE_FACTOR = 255;
         float hsvValues[] = {0F, 0F, 0F};
         Color.RGBToHSV((int) (eyeStalkColorSensor.red() * SCALE_FACTOR),
                 (int) (eyeStalkColorSensor.green() * SCALE_FACTOR),
                 (int) (eyeStalkColorSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-        message("Color sensor", hsvValues[0]+", " + hsvValues[1] + ", " + hsvValues[2]);
+       // message("Color sensor", hsvValues[0]+", " + hsvValues[1] + ", " + hsvValues[2]);
         if (hsvValues[0] > hsvValues[1] && hsvValues[0] > hsvValues[2]) return COLOR_RED;
         else if (hsvValues[1] > hsvValues[0] && hsvValues[1] > hsvValues[2]) return COLOR_GREEN;
         else if (hsvValues[2] > hsvValues[0] && hsvValues[2] > hsvValues[1]) return COLOR_BLUE;
@@ -125,6 +129,7 @@ public class ProtoBot {
 
     public Orientation getGyroAngles() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
         //this.message("imu:",angles.firstAngle + ", " + angles.secondAngle + ", " + angles.thirdAngle);
         return angles;
     }
