@@ -6,15 +6,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-    @TeleOp(name="AristaBopIt", group="Arista")
-    public class AristaAutoDrive extends LinearOpMode {
+@TeleOp(name="AristaBopIt", group="Arista")
+public class AristaAutoDrive extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        Robot robot = new Robot(this.telemetry, this.gamepad1, this.gamepad2);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        Robot robot = new Robot(this.telemetry, this.gamepad1, this.gamepad2);
 
-    }}
+
+    }
+}

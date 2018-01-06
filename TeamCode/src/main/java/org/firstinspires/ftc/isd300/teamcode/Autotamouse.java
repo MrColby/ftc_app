@@ -26,32 +26,49 @@ public class Autotamouse {
         this.telemetry = this.linearOpMode.telemetry;
     }
     public void runMission() throws InterruptedException {
+
         totBot = new TotBot(this.hardwareMap,this.telemetry);
 
         this.linearOpMode.waitForStart();
+        totBot.armDown();
+        pause(500);
+        int color = totBot.getEyestalkColor();
+        double power;
+        if(this.red == true && color == TotBot.COLOR_RED) {
+            power = 0.4;
+        }
+        else if(this.red == true && color == TotBot.COLOR_BLUE){
+            power = -0.4;
+        }
+        else if(this.red == false && color == TotBot.COLOR_BLUE){
+            power = 0.4;
+        }
+        else if(this.red == false && color == TotBot.COLOR_RED){
+            power = -0.4;
+        }
+        else {
+            power = 0;
+        }
 
-        drive(.6, 0);
-
-        ElapsedTime timer=new ElapsedTime();
-        while (timer.milliseconds()<3000) {
+        twirl(power, 500);
+        totBot.armUp();
+        twirl(-power, 500);
+        
+        while(this.linearOpMode.opModeIsActive()) {
 
         }
-        drive(0, 0);
-        twirl(.5);
-        timer.reset();
-        while (timer.milliseconds()<1000) {
+        totBot.armUp();
 
-        }
-        drive(0, 0);
-
-
-        while (this.linearOpMode.opModeIsActive()) {
-
-            this.totBot.getPictograph();
-
-        }
 
     }
+    private void pause (double milliseconds) {
+        ElapsedTime timer = new ElapsedTime();
+        while(timer.milliseconds() < milliseconds) {
+
+        }
+    }
+
+
 
     private void drive (double forward, double right){
         double frontLeft = forward  + right;
@@ -62,13 +79,22 @@ public class Autotamouse {
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
     }
 
-    private void twirl (double twirl){
-        double frontLeft = twirl;
-        double frontRight = -twirl;
-        double rearLeft = twirl;
-        double rearRight = -twirl;
+    private void twirl (double power, double time){
+        double frontLeft = power;
+        double frontRight = -power;
+        double rearLeft = power;
+        double rearRight = -power;
 
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+        pause(time);
+
+        totBot.drive(0, 0, 0, 0);
+
+
+    }
+    public void call(String caption, String message) {
+        telemetry.addData(caption, message);
+        telemetry.update();
     }
 
 
