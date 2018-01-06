@@ -53,7 +53,7 @@ public class Autotamouse {
         twirl(power, 500);
         totBot.armUp();
         twirl(-power, 500);
-        
+
         while(this.linearOpMode.opModeIsActive()) {
 
         }
