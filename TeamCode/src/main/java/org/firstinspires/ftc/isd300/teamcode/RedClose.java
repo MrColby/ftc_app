@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class RedClose extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
-        Autotamouse marmotot =  new Autotamouse(false, false, this);
+        Autotamouse marmotot =  new Autotamouse(true, false, this);
         marmotot.runMission();
     }
 }

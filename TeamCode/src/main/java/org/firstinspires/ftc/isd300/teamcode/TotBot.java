@@ -69,12 +69,12 @@ public class TotBot {
 
     public RelicRecoveryVuMark getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        call("Pictograph", vuMark + "");
+        message("Pictograph", vuMark + "");
         return vuMark;
     }
 
     public void drive(double frontLeft, double frontRight, double rearLeft, double rearRight) {
-        double greatest = Math.abs(frontLeft);
+       double greatest = Math.abs(frontLeft);
        if (Math.abs(frontRight)>greatest) greatest = Math.abs(frontRight);
        if (Math.abs(rearLeft)>greatest) greatest = Math.abs(rearLeft);
        if (Math.abs(rearRight)>greatest) greatest = Math.abs(rearRight);
@@ -99,19 +99,20 @@ public class TotBot {
         this.eyeStalkServo = this.hardwareMap.get(Servo.class, "eyestalk_servo");
         this.eyeStalkColorSensor = hardwareMap.get(ColorSensor.class, "eyestalk_sensor");
         this.eyeStalkDistanceSensor = hardwareMap.get(DistanceSensor.class, "eyestalk_sensor");
-        this.eyeStalkServo.setPosition(0.5);
+        this.eyeStalkServo.setPosition(0.2);
     }
 
 
 
 
-    public void armUpDown(boolean up) {
-
+    public void armUp() {
+        this.eyeStalkServo.setPosition(.2);
     }
 
-    public void armGrabRelease(boolean close) {
-
+    public void armDown() {
+        this.eyeStalkServo.setPosition(.95);
     }
+
 
     public void riaseEyestalk(){
         this.eyeStalkServo.setPosition(0.9);
@@ -131,8 +132,23 @@ public class TotBot {
         this.rightHandServo.setPosition(.45);
     }
 
-    public int eyestalkSense() {
+    public int getEyestalkColor() {
+
+
+        message("Color sensor", eyeStalkColorSensor.red()+", " + eyeStalkColorSensor.green() + ", " + eyeStalkColorSensor.blue());
+        if(eyeStalkColorSensor.red() > eyeStalkColorSensor.green() && eyeStalkColorSensor.red() > eyeStalkColorSensor.blue()  ) {
+            return COLOR_RED;
+        }
+        if(eyeStalkColorSensor.green() > eyeStalkColorSensor.red() && eyeStalkColorSensor.green() > eyeStalkColorSensor.blue()  ) {
+            return COLOR_GREEN;
+        }
+        if(eyeStalkColorSensor.blue() > eyeStalkColorSensor.green() && eyeStalkColorSensor.blue() > eyeStalkColorSensor.red()  ) {
+            return COLOR_BLUE;
+        }
+
+
         return COLOR_UNKNOWN;
+
     }
 
 
@@ -169,10 +185,6 @@ public class TotBot {
         this.relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
         this.relicTrackables.activate();
 
-    }
-    public void call(String caption, String message) {
-        telemetry.addData(caption, message);
-        telemetry.update();
     }
 
     public Orientation getGyroAngles() {
