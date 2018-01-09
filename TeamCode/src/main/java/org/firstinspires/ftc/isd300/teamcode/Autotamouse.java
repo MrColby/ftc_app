@@ -30,8 +30,8 @@ public class Autotamouse {
         totBot = new TotBot(this.hardwareMap,this.telemetry);
 
         this.linearOpMode.waitForStart();
-        totBot.armDown();
-        pause(500);
+        totBot.lowerEyestalk();
+        pause(1000);
         int color = totBot.getEyestalkColor();
         double power;
         if(this.red == true && color == TotBot.COLOR_RED) {
@@ -51,13 +51,19 @@ public class Autotamouse {
         }
 
         twirl(power, 500);
-        totBot.armUp();
+
+        pause(5000);
+
+        totBot.riaseEyestalk();
         twirl(-power, 500);
+
+
+
 
         while(this.linearOpMode.opModeIsActive()) {
 
         }
-        totBot.armUp();
+
 
 
     }
@@ -69,12 +75,17 @@ public class Autotamouse {
     }
 
 
-
-    private void drive (double forward, double right){
-        double frontLeft = forward  + right;
-        double frontRight = forward  - right;
-        double rearLeft = forward  - right;
-        double rearRight = forward  + right;
+    /*
+      Just like joystick values.
+      powerForward ranges from -1.0 to 1.0
+      powerRight ranges from -1.0 to 1.0
+      powerRight controls strafe
+     */
+    private void drive (double powerForward, double powerRight){
+        double frontLeft = powerForward  + powerRight;
+        double frontRight = powerForward  - powerRight;
+        double rearLeft = powerForward  - powerRight;
+        double rearRight = powerForward  + powerRight;
 
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
     }
