@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.bridget;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,6 +11,7 @@ import java.util.Random;
  * Created by colbyl on 11/13/2017.
  */
 @TeleOp(name="BridgetBopit",group="Bridget")
+@Disabled
 public class BridgetBopit extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     Random random= new Random();

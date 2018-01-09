@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.ind.colby.proto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by colbyl on 12/2/2017.
  */
 @TeleOp(name="ColbyProtoPiloted", group="Colby")
+@Disabled
 public class PilotedMission extends LinearOpMode {
 
 

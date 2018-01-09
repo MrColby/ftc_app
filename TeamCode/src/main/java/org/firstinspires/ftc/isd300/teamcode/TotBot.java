@@ -60,6 +60,8 @@ public class TotBot {
     public static final int COLOR_GREEN = 2;
     public static final int COLOR_BLUE = 3;
 
+    private boolean handsMoving = false;
+
     public TotBot(HardwareMap ardwareMap, Telemetry elemtry) {
         this.hardwareMap = ardwareMap;
         this.telemetry = elemtry;
@@ -71,10 +73,10 @@ public class TotBot {
 
     }
 
-    public RelicRecoveryVuMark getPictograph() {
+    public String getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         message("Pictograph", vuMark + "");
-        return vuMark;
+        return vuMark.toString();
     }
 
     public void drive(double frontLeft, double frontRight, double rearLeft, double rearRight) {
@@ -101,34 +103,26 @@ public class TotBot {
         //this.rightHandServo.setPosition(-0.5);
     }
 
-
-    public void openHands(){
-        this.leftHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        this.rightHandServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        //this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        this.leftHandServo.setPower(0.5);
-        this.rightHandServo.setPower(0.5);
-        ElapsedTime timer = new ElapsedTime();
-        while (timer.milliseconds() < 1000) {
-
+    public void moveHands(boolean close, double power) {
+        if (close) {
+            this.leftHandServo.setDirection(DcMotorSimple.Direction.FORWARD);
+            this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
         }
-        this.leftHandServo.setPower(0);
-        this.rightHandServo.setPower(0);
+        else {
+            this.leftHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
+            this.rightHandServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+        this.leftHandServo.setPower(power);
+        this.rightHandServo.setPower(power);
     }
 
-    public void closeHands(){
-        this.leftHandServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        //this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        this.leftHandServo.setPower(0.5);
-        this.rightHandServo.setPower(0.5);
-        ElapsedTime timer = new ElapsedTime();
-        while (timer.milliseconds() < 1000) {
-
-        }
-        this.leftHandServo.setPower(0);
-        this.rightHandServo.setPower(0);
+    public void freezeHands() {
+          this.leftHandServo.setPower(0);
+          this.rightHandServo.setPower(0);
     }
+
+
+
 
     private void initializeEyestalk(){
         this.eyeStalkServo = this.hardwareMap.get(Servo.class, "eyestalk_servo");
@@ -151,7 +145,7 @@ public class TotBot {
 
 
     public void lowerEyestalk(){
-        this.eyeStalkServo.setPosition(0.9);
+        this.eyeStalkServo.setPosition(0.95);
     }
 
     public void riaseEyestalk(){
