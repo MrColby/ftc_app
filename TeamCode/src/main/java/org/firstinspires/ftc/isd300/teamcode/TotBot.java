@@ -6,9 +6,12 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -40,8 +43,8 @@ public class TotBot {
     private DistanceSensor eyeStalkDistanceSensor;
 
     private DcMotor armMotor;
-    private Servo leftHandServo;
-    private Servo rightHandServo;
+    private CRServo leftHandServo;
+    private CRServo rightHandServo;
 
     private DcMotor wheelFrontRightMotor;
     private DcMotor wheelFrontLeftMotor;
@@ -64,6 +67,7 @@ public class TotBot {
         this.initializeVuforia();
 
         this.initializeEyestalk();
+        this.initializeArm();
 
     }
 
@@ -90,47 +94,70 @@ public class TotBot {
        this.wheelBackLeftMotor.setPower(rearLeft);
     }
     private void initializeArm(){
-        this.leftHandServo = this.hardwareMap.get(Servo.class,"left_hand");
-        this.rightHandServo = this.hardwareMap.get(Servo.class,"right_hand");
-        this.leftHandServo.setPosition(0.5);
-        this.rightHandServo.setPosition(0.5);
+        this.leftHandServo = this.hardwareMap.get(CRServo.class,"left_hand");
+        this.rightHandServo = this.hardwareMap.get(CRServo.class,"right_hand");
+        // changed to continuous rotation to find the other 180 of turn!
+        //this.leftHandServo.setPosition(0.5);
+        //this.rightHandServo.setPosition(-0.5);
     }
+
+
+    public void openHands(){
+        this.leftHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.rightHandServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        //this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.leftHandServo.setPower(0.5);
+        this.rightHandServo.setPower(0.5);
+        ElapsedTime timer = new ElapsedTime();
+        while (timer.milliseconds() < 1000) {
+
+        }
+        this.leftHandServo.setPower(0);
+        this.rightHandServo.setPower(0);
+    }
+
+    public void closeHands(){
+        this.leftHandServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        //this.rightHandServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.leftHandServo.setPower(0.5);
+        this.rightHandServo.setPower(0.5);
+        ElapsedTime timer = new ElapsedTime();
+        while (timer.milliseconds() < 1000) {
+
+        }
+        this.leftHandServo.setPower(0);
+        this.rightHandServo.setPower(0);
+    }
+
     private void initializeEyestalk(){
         this.eyeStalkServo = this.hardwareMap.get(Servo.class, "eyestalk_servo");
         this.eyeStalkColorSensor = hardwareMap.get(ColorSensor.class, "eyestalk_sensor");
         this.eyeStalkDistanceSensor = hardwareMap.get(DistanceSensor.class, "eyestalk_sensor");
-        this.eyeStalkServo.setPosition(0.2);
+        this.riaseEyestalk();
     }
 
 
 
 
-    public void armUp() {
+    /*public void armUp() {
         this.eyeStalkServo.setPosition(.2);
     }
 
     public void armDown() {
         this.eyeStalkServo.setPosition(.95);
     }
+    */
 
 
-    public void riaseEyestalk(){
+    public void lowerEyestalk(){
         this.eyeStalkServo.setPosition(0.9);
     }
 
-    public void lowerEyestalk(){
-        this.eyeStalkServo.setPosition(0.1);
+    public void riaseEyestalk(){
+        this.eyeStalkServo.setPosition(0.2);
     }
 
-    public void openHands(){
-        this.leftHandServo.setPosition(0.9);
-        this.rightHandServo.setPosition(0.9);
-    }
-
-    public void closeHands(){
-        this.leftHandServo.setPosition(.45);
-        this.rightHandServo.setPosition(.45);
-    }
 
     public int getEyestalkColor() {
 
