@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.isd300.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -46,31 +47,45 @@ public class TotDriver extends LinearOpMode {
     }
 
     private void drive(){
-        double frontLeft;
+        /*double frontLeft;
         double frontRight;
         double rearLeft;
         double rearRight;
+
+
+
         if (Math.abs(gamepad1.right_stick_x) > Math.abs(gamepad1.right_stick_y) && Math.abs(gamepad1.right_stick_x) > Math.abs(this.gamepad1.left_stick_x)) {
             //straight = false;
-            frontLeft = gamepad1.right_stick_x;
-            rearRight = gamepad1.right_stick_x;
+            frontLeft = 0.9*gamepad1.right_stick_x;
+            rearRight = 0.9*gamepad1.right_stick_x;
             frontRight = -gamepad1.right_stick_x;
             rearLeft = -gamepad1.right_stick_x;
 
+
         }
         else if (Math.abs(gamepad1.right_stick_y) > Math.abs(gamepad1.right_stick_x) && Math.abs(gamepad1.right_stick_y) > Math.abs(this.gamepad1.left_stick_x)){
-            frontLeft = -gamepad1.right_stick_x;
-            rearRight = -gamepad1.right_stick_x;
-            frontRight = -gamepad1.right_stick_x;
-            rearLeft = -gamepad1.right_stick_x;
+            frontLeft = -gamepad1.right_stick_y;
+            rearRight = -gamepad1.right_stick_y;
+            frontRight = -gamepad1.right_stick_y;
+            rearLeft = -gamepad1.right_stick_y;
+
         }
-        else {
+        else if (Math.abs(gamepad1.left_stick_x) > Math.abs(gamepad1.right_stick_x) && Math.abs(gamepad1.left_stick_x) > Math.abs(this.gamepad1.right_stick_y)){
             frontLeft = gamepad1.left_stick_x;
             rearRight = -gamepad1.left_stick_x;
             frontRight = -gamepad1.left_stick_x;
             rearLeft = gamepad1.left_stick_x;
+
         }
-        /*double forward = -1 * this.gamepad1.right_stick_y;
+        else {
+            frontLeft =0;
+            rearRight = 0;
+            frontRight = 0;
+            rearLeft = 0;
+
+        }*/
+
+        double forward = -1 * this.gamepad1.right_stick_y;
         double right = this.gamepad1.right_stick_x;
         double clockwise = this.gamepad1.left_stick_x;
 
@@ -78,9 +93,15 @@ public class TotDriver extends LinearOpMode {
         double frontRight = forward - clockwise - right;
         double rearLeft = forward + clockwise - right;
         double rearRight = forward - clockwise + right;
-        */
+
 
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
     }
+
+    public void message(String caption, String msg) {
+        this.telemetry.addData(caption, msg);
+        this.telemetry.update();
+    }
+
 }
 
