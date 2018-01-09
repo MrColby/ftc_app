@@ -94,6 +94,9 @@ public class TotBot {
        this.wheelFrontLeftMotor.setPower(frontLeft);
        this.wheelBackRightMotor.setPower(rearRight);
        this.wheelBackLeftMotor.setPower(rearLeft);
+
+
+  
     }
     private void initializeArm(){
         this.leftHandServo = this.hardwareMap.get(CRServo.class,"left_hand");
