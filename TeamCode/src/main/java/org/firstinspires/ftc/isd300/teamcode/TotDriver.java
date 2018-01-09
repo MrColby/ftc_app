@@ -19,31 +19,58 @@ public class TotDriver extends LinearOpMode {
         this.waitForStart();
         while (this.opModeIsActive()) {
             drive();
-            raiseOrLowerEyestalk();
+            //raiseOrLowerEyestalk();
             openOrCloseHands();
         }
         totBot.drive(0, 0, 0, 0);
     }
     private void raiseOrLowerEyestalk() {
-        if (this.gamepad1.y) {
+        if (this.gamepad1.a) {
             this.totBot.riaseEyestalk();
         }
-        else if (this.gamepad1.a) {
+        else if (this.gamepad1.y) {
             this.totBot.lowerEyestalk();
         }
     }
 
     private void openOrCloseHands() {
         if (this.gamepad1.left_bumper) {
-            this.totBot.openHands();
+            this.totBot.moveHands(false, 0.5);
         }
         else if (this.gamepad1.right_bumper) {
-            this.totBot.closeHands();
+            this.totBot.moveHands(true, 0.5);
+        }
+        else {
+            this.totBot.freezeHands();
         }
     }
 
     private void drive(){
-        double forward = -1 * this.gamepad1.right_stick_y;
+        double frontLeft;
+        double frontRight;
+        double rearLeft;
+        double rearRight;
+        if (Math.abs(gamepad1.right_stick_x) > Math.abs(gamepad1.right_stick_y) && Math.abs(gamepad1.right_stick_x) > Math.abs(this.gamepad1.left_stick_x)) {
+            //straight = false;
+            frontLeft = gamepad1.right_stick_x;
+            rearRight = gamepad1.right_stick_x;
+            frontRight = -gamepad1.right_stick_x;
+            rearLeft = -gamepad1.right_stick_x;
+
+        }
+        else if (Math.abs(gamepad1.right_stick_y) > Math.abs(gamepad1.right_stick_x) && Math.abs(gamepad1.right_stick_y) > Math.abs(this.gamepad1.left_stick_x)){
+            frontLeft = -gamepad1.right_stick_x;
+            rearRight = -gamepad1.right_stick_x;
+            frontRight = -gamepad1.right_stick_x;
+            rearLeft = -gamepad1.right_stick_x;
+        }
+        else {
+            frontLeft = gamepad1.left_stick_x;
+            rearRight = -gamepad1.left_stick_x;
+            frontRight = -gamepad1.left_stick_x;
+            rearLeft = gamepad1.left_stick_x;
+        }
+        /*double forward = -1 * this.gamepad1.right_stick_y;
         double right = this.gamepad1.right_stick_x;
         double clockwise = this.gamepad1.left_stick_x;
 
@@ -51,6 +78,7 @@ public class TotDriver extends LinearOpMode {
         double frontRight = forward - clockwise - right;
         double rearLeft = forward + clockwise - right;
         double rearRight = forward - clockwise + right;
+        */
 
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
     }

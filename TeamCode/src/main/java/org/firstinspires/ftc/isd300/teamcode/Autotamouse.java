@@ -18,6 +18,7 @@ public class Autotamouse {
     private LinearOpMode linearOpMode;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
+
     public Autotamouse(boolean red, boolean far, LinearOpMode linearOpMode) {
         this.red = red;
         this.far = far;
@@ -29,8 +30,21 @@ public class Autotamouse {
 
         totBot = new TotBot(this.hardwareMap,this.telemetry);
 
+        totBot.moveHands(false, 0.5);
+        pause(1000);
+        totBot.freezeHands();
         this.linearOpMode.waitForStart();
-        totBot.lowerEyestalk();
+        String mark;
+        totBot.moveHands(true, 0.5);
+        pause(1000);
+        totBot.freezeHands();
+        twirl(-0.3, 300);
+        ElapsedTime timer = new ElapsedTime();
+        while(timer.milliseconds() < 1500) {
+            mark = totBot.getPictograph();
+        }
+        twirl(0.3, 300);
+            totBot.lowerEyestalk();
         pause(1000);
         int color = totBot.getEyestalkColor();
         double power;
@@ -50,19 +64,29 @@ public class Autotamouse {
             power = 0;
         }
 
+
+
         twirl(power, 500);
 
-        pause(5000);
+        pause(500);
 
         totBot.riaseEyestalk();
         twirl(-power, 500);
 
-
+        twirl(0.5, 900);
+        pause(1000);
+        this.drive(0.5, 0, 1000);
+        pause(1000);
+        twirl(0.5, 950);
+        pause(1000);
+        this.drive(0.2, 0, 250);
 
 
         while(this.linearOpMode.opModeIsActive()) {
 
         }
+
+
 
 
 
@@ -81,13 +105,26 @@ public class Autotamouse {
       powerRight ranges from -1.0 to 1.0
       powerRight controls strafe
      */
-    private void drive (double powerForward, double powerRight){
+    private void drive (double powerForward, double powerRight, double time){
         double frontLeft = powerForward  + powerRight;
         double frontRight = powerForward  - powerRight;
         double rearLeft = powerForward  - powerRight;
         double rearRight = powerForward  + powerRight;
+        totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+        pause(time);
+        totBot.drive(0,0,0,0);
+    }
+    private void strafe (double power, double time) {
+
+        double frontLeft = power;
+        double frontRight = -power;
+        double rearLeft = -power;
+        double rearRight = power;
 
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+        pause(time);
+
+        totBot.drive(0, 0, 0, 0);
     }
 
     private void twirl (double power, double time){
