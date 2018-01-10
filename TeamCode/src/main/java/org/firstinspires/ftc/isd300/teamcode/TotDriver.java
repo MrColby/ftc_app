@@ -35,10 +35,10 @@ public class TotDriver extends LinearOpMode {
     }
 
     private void openOrCloseHands() {
-        if (this.gamepad1.left_bumper) {
+        if (this.gamepad1.left_bumper || this.gamepad2.left_bumper) {
             this.totBot.moveHands(false, 0.5);
         }
-        else if (this.gamepad1.right_bumper) {
+        else if (this.gamepad1.right_bumper || this.gamepad2.right_bumper) {
             this.totBot.moveHands(true, 0.5);
         }
         else {
