@@ -75,7 +75,7 @@ public class TotBot {
 
     public String getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        message("Pictograph", vuMark + "");
+        //message("Pictograph", vuMark + "");
         return vuMark.toString();
     }
 
