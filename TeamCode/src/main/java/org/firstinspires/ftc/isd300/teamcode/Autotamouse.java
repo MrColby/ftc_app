@@ -54,9 +54,37 @@ public class Autotamouse {
         else if (this.red == true && this.far == false && mark.equals("CENTER")) {
             placeBlockRedCloseCenter();
         }
-        else if (this.red == false && this.far == false && mark.equals("CENTER")) {
-            this.placeBlockBlueCloseCenter();
+        else if (this.red == true && this.far == false && mark.equals("LEFT")) {
+            placeBlockRedCloseLeft();
         }
+        if (this.red == true && this.far == true && mark.equals("RIGHT")) {
+            placeBlockRedFarRight();
+        }
+        else if (this.red == true && this.far == true && mark.equals("CENTER")) {
+            placeBlockRedFarCenter();
+        }
+        else if (this.red == true && this.far == true && mark.equals("LEFT")) {
+            placeBlockRedFarLeft();
+        }
+        else if (this.red == false && this.far == false && mark.equals("RIGHT")) {
+            placeBlockBlueCloseRight();
+        }
+        else if (this.red == false && this.far == false && mark.equals("CENTER")) {
+            placeBlockBlueCloseCenter();
+        }
+        else if (this.red == false && this.far == false && mark.equals("LEFT")) {
+            placeBlockBlueCloseLeft();
+        }
+        if (this.red == false && this.far == true && mark.equals("RIGHT")) {
+            placeBlockBlueFarRight();
+        }
+        else if (this.red == false && this.far == true && mark.equals("CENTER")) {
+            placeBlockBlueFarCenter();
+        }
+        else if (this.red == false && this.far == true && mark.equals("LEFT")) {
+            placeBlockBlueFarLeft();
+        }
+
 
 
         /*
