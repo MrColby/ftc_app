@@ -32,36 +32,50 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 public class TotBot {
+    // the config map that comes from the controller app
     private HardwareMap hardwareMap;
+
+    // telemetry sends messages to the phone display
     private Telemetry telemetry;
 
+    // gyroscope
     private BNO055IMU imu;
 
+    // raise and lower the eye stalk
     private Servo eyeStalkServo;
 
+    // color and distance
     private ColorSensor eyeStalkColorSensor;
     private DistanceSensor eyeStalkDistanceSensor;
 
+    // raise the arm structure to lift blocks
     private DcMotor armMotor;
+
+    // open and close hands
     private CRServo leftHandServo;
     private CRServo rightHandServo;
 
+    // drive mecanum wheels
     private DcMotor wheelFrontRightMotor;
     private DcMotor wheelFrontLeftMotor;
     private DcMotor wheelBackLeftMotor;
     private DcMotor wheelBackRightMotor;
 
+    // image processing
     private VuforiaLocalizer vuforia;
     private VuforiaTrackables relicTrackables;
     private VuforiaTrackable relicTemplate;
 
-    public static final int COLOR_UNKNOWN = 0;
-    public static final int COLOR_RED = 1;
-    public static final int COLOR_GREEN = 2;
-    public static final int COLOR_BLUE = 3;
+    public enum Color {
+        UNKNOWN,
+        RED,
+        GREEN,
+        BLUE
+    }
 
-    private boolean handsMoving = false;
-
+    /*
+    When the robot is created, initialize it
+     */
     public TotBot(HardwareMap ardwareMap, Telemetry elemtry) {
         this.hardwareMap = ardwareMap;
         this.telemetry = elemtry;
@@ -73,10 +87,10 @@ public class TotBot {
 
     }
 
-    public String getPictograph() {
+    public RelicRecoveryVuMark getPictograph() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         //message("Pictograph", vuMark + "");
-        return vuMark.toString();
+        return vuMark;
     }
 
     public void drive(double frontLeft, double frontRight, double rearLeft, double rearRight) {
@@ -156,22 +170,22 @@ public class TotBot {
     }
 
 
-    public int getEyestalkColor() {
+    public Color getEyestalkColor() {
 
 
         message("Color sensor", eyeStalkColorSensor.red()+", " + eyeStalkColorSensor.green() + ", " + eyeStalkColorSensor.blue());
         if(eyeStalkColorSensor.red() > eyeStalkColorSensor.green() && eyeStalkColorSensor.red() > eyeStalkColorSensor.blue()  ) {
-            return COLOR_RED;
+            return Color.RED;
         }
         if(eyeStalkColorSensor.green() > eyeStalkColorSensor.red() && eyeStalkColorSensor.green() > eyeStalkColorSensor.blue()  ) {
-            return COLOR_GREEN;
+            return Color.GREEN;
         }
         if(eyeStalkColorSensor.blue() > eyeStalkColorSensor.green() && eyeStalkColorSensor.blue() > eyeStalkColorSensor.red()  ) {
-            return COLOR_BLUE;
+            return Color.BLUE;
         }
 
 
-        return COLOR_UNKNOWN;
+        return Color.UNKNOWN;
 
     }
 

@@ -12,78 +12,104 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  */
 
 public class Autotamouse {
-    private boolean red;
-    private boolean far;
-    private TotBot totBot;
-    private LinearOpMode linearOpMode;
-    private HardwareMap hardwareMap;
-    private Telemetry telemetry;
 
+    // what color island we start on
+    private boolean red;
+
+    // close to the mats, or far
+    private boolean far;
+
+    // the robot
+    private TotBot totBot;
+
+    // so we can access opmode functions
+    private LinearOpMode linearOpMode;
+
+    /*
+    LinearOpMode tells us what color we are on and where we start
+     */
     public Autotamouse(boolean red, boolean far, LinearOpMode linearOpMode) {
         this.red = red;
         this.far = far;
         this.linearOpMode = linearOpMode;
-        this.hardwareMap = this.linearOpMode.hardwareMap;
-        this.telemetry = this.linearOpMode.telemetry;
     }
+
+    /*
+        All the work is done in this method
+     */
     public void runMission() throws InterruptedException {
 
         // init the robot
-        totBot = new TotBot(this.hardwareMap,this.telemetry);
+        totBot = new TotBot(this.linearOpMode.hardwareMap,this.linearOpMode.telemetry);
 
+        // make sure the hands are open. This seems to have to happen even when the hands already start open
         openHands();
 
         // wait for the start button to be pushed
         this.linearOpMode.waitForStart();
 
 
-
+        // first hold the block so that we keep it when we turn
         grabBlock();
 
         // get the mark that tells us which column to put the block into
-        String mark = getPictograph();
-        this.call("Mark", mark);
+        RelicRecoveryVuMark mark = getPictograph();
+        if (mark == RelicRecoveryVuMark.UNKNOWN) mark = RelicRecoveryVuMark.CENTER;
+        this.call("Mark", mark.toString());
         pause(1000);
-        // knock off the jewel
-        //this.knockingOffJewel();
 
-        //eyestalk segment ends - leave platform
-        if (this.red == true && this.far == false && mark.equals("RIGHT")) {
-            placeBlockRedCloseRight();
+        // knock off the jewel. We should return to the starting position. If we can't tell the jewel color, we stay.
+        this.knockingOffJewel();
+
+        // go put the block away and park. Every island requires different driving instructions.
+        if (this.red == true) {
+            call("", "Starting on red"); pause(1000);
+            if (this.far == true) {
+                call("", "Starting far"); pause(1000);
+                if (mark == RelicRecoveryVuMark.RIGHT) {
+                    placeBlockRedFarRight();
+                } else if (mark == RelicRecoveryVuMark.CENTER) {
+                    placeBlockRedFarCenter();
+                } else if (mark == RelicRecoveryVuMark.LEFT) {
+                    placeBlockRedFarLeft();
+                }
+            }
+            else {
+                call("", "Starting close"); pause(1000);
+                if (mark == RelicRecoveryVuMark.RIGHT) {
+                    placeBlockRedCloseRight();
+                } else if (mark == RelicRecoveryVuMark.CENTER) {
+                    placeBlockRedCloseCenter();
+                } else if (mark == RelicRecoveryVuMark.LEFT) {
+                    placeBlockRedCloseLeft();
+                }
+            }
         }
-        else if (this.red == true && this.far == false && mark.equals("CENTER")) {
-            placeBlockRedCloseCenter();
+        else {
+            call("", "Starting on blue");
+            if (this.far == true) {
+                call("", "Starting far"); pause(1000);
+                if (mark == RelicRecoveryVuMark.RIGHT) {
+                    placeBlockBlueFarRight();
+                } else if (mark == RelicRecoveryVuMark.CENTER) {
+                    placeBlockBlueFarCenter();
+                } else if (mark == RelicRecoveryVuMark.LEFT) {
+                    placeBlockBlueFarLeft();
+                }
+            }
+            else {
+                call("", "Starting close"); pause(1000);
+                if (mark == RelicRecoveryVuMark.RIGHT) {
+                    placeBlockBlueCloseRight();
+                } else if (mark == RelicRecoveryVuMark.CENTER) {
+                    placeBlockBlueCloseCenter();
+                } else if (mark == RelicRecoveryVuMark.LEFT) {
+                    placeBlockBlueCloseLeft();
+                }
+            }
         }
-        else if (this.red == true && this.far == false && mark.equals("LEFT")) {
-            placeBlockRedCloseLeft();
-        }
-        if (this.red == true && this.far == true && mark.equals("RIGHT")) {
-            placeBlockRedFarRight();
-        }
-        else if (this.red == true && this.far == true && mark.equals("CENTER")) {
-            placeBlockRedFarCenter();
-        }
-        else if (this.red == true && this.far == true && mark.equals("LEFT")) {
-            placeBlockRedFarLeft();
-        }
-        else if (this.red == false && this.far == false && mark.equals("RIGHT")) {
-            placeBlockBlueCloseRight();
-        }
-        else if (this.red == false && this.far == false && mark.equals("CENTER")) {
-            placeBlockBlueCloseCenter();
-        }
-        else if (this.red == false && this.far == false && mark.equals("LEFT")) {
-            placeBlockBlueCloseLeft();
-        }
-        if (this.red == false && this.far == true && mark.equals("RIGHT")) {
-            placeBlockBlueFarRight();
-        }
-        else if (this.red == false && this.far == true && mark.equals("CENTER")) {
-            placeBlockBlueFarCenter();
-        }
-        else if (this.red == false && this.far == true && mark.equals("LEFT")) {
-            placeBlockBlueFarLeft();
-        }
+
+
 
 
 
@@ -94,99 +120,207 @@ public class Autotamouse {
 
         }
 
-
-
-
-
     }
 
     private void placeBlockBlueCloseCenter() {
+        call("", "BlueCloseCenter");
 
+        twirl(-0.5, 500);
+
+        this.drive(0.5, 0, 700);
+
+        twirl(-0.5, 1300);
+
+        this.drive(0.2, 0, 1100);
+
+        twirl(-0.5, 500);
+
+        this.drive(0.2, 0, 1100);
     }
 
     private void placeBlockBlueCloseLeft() {
+        call("", "BlueCloseLeft");
 
+        twirl(-0.5, 500);
+
+        this.drive(0.5, 0, 700);
+
+        twirl(-0.5, 1300);
+
+        this.drive(0.2, 0, 1100);
+
+        twirl(-0.5, 500);
+
+        this.drive(0.2, 0, 1100);
     }
 
     private void placeBlockBlueCloseRight() {
+        call("", "BlueCloseRight");
 
+        twirl(-0.5, 500);
+
+        this.drive(0.5, 0, 700);
+
+        twirl(-0.5, 1300);
+
+        this.drive(0.2, 0, 1100);
+
+        twirl(-0.5, 500);
+
+        this.drive(0.2, 0, 1100);
     }
 
     private void placeBlockBlueFarCenter() {
+        call("", "BlueFarCenter");
 
+        this.drive(0.5, 0, 1000);
+
+        twirl(-0.5, 1400);
+
+        this.drive(0.5, 0, 600);
+
+        twirl(-0.5, 1000);
+
+        this.drive(0.5, 0, 450);
+
+        twirl(0.5, 1100);
+
+        this.drive(0.5, 0, 150);
     }
 
     private void placeBlockBlueFarLeft() {
+        call("", "BlueFarLeft");
 
+        this.drive(0.5, 0, 1000);
+
+        twirl(-0.5, 1400);
+
+        this.drive(0.5, 0, 600);
+
+        twirl(-0.5, 1000);
+
+        this.drive(0.5, 0, 450);
+
+        twirl(0.5, 1100);
+
+        this.drive(0.5, 0, 150);
     }
 
     private void placeBlockBlueFarRight() {
+        call("", "BlueFarRight");
 
+        this.drive(0.5, 0, 1000);
+
+        twirl(-0.5, 1400);
+
+        this.drive(0.5, 0, 600);
+
+        twirl(-0.5, 1000);
+
+        this.drive(0.5, 0, 450);
+
+        twirl(0.5, 1100);
+
+        this.drive(0.5, 0, 150);
     }
 
     private void placeBlockRedFarCenter() {
+        call("", "RedFarCenter");
 
+        this.drive(0.5, 0, 1000);
+
+        twirl(0.5, 1400);
+
+        this.drive(0.5, 0, 500);
+
+        twirl(-0.5, 500);
+
+        this.drive(0.5, 0, 250);
+
+        twirl(0.5, 550);
+
+        this.drive(0.5, 0, 250);
     }
 
     private void placeBlockRedFarLeft() {
+        call("", "RedFarLeft");
 
+        this.drive(0.5, 0, 1000);
+
+        twirl(0.5, 1400);
+
+        this.drive(0.5, 0, 500);
+
+        twirl(-0.5, 500);
+
+        this.drive(0.5, 0, 250);
+
+        twirl(0.5, 550);
+
+        this.drive(0.5, 0, 250);
     }
 
     private void placeBlockRedFarRight() {
+        call("", "RedFarRight");
 
+        this.drive(0.5, 0, 1000);
+
+        twirl(0.5, 1400);
+
+        this.drive(0.5, 0, 500);
+
+        twirl(-0.5, 500);
+
+        this.drive(0.5, 0, 250);
+
+        twirl(0.5, 550);
+
+        this.drive(0.5, 0, 250);
     }
 
     private void placeBlockRedCloseCenter() {
-// turn counter-clockwise 90 degrees
-        pause(1000);
-        call("", "first clockwise turn on island");
-        pause(1000);
+        call("", "RedCloseCenter");
+
         twirl(0.5, 500);
-        pause(1000);
-        call("", "driving straight off island");
-        pause(1000);
+
         this.drive(0.5, 0, 1000);
-        pause(1000);
-        //call("", "Strafing toward blue");
-        //strafe(true, 1000);
-        //pause(1000);
-        call("", "second clockwise turn toward box");
-        pause(1000);
+
         twirl(0.5, 1600);
-        pause(1000);
-        call("", "driving straight to box");
-        pause(1000);
+
         this.drive(0.2, 0, 1800);
-        pause(1000);
+
     }
 
     private void placeBlockRedCloseLeft() {
+        call("", "RedCloseLeft");
+        twirl(0.5, 500);
 
+        this.drive(0.5, 0, 1000);
+
+
+        twirl(0.5, 1600);
+
+        this.drive(0.2, 0, 1800);
     }
 
     private void placeBlockRedCloseRight() {
-        // turn counter-clockwise 90 degrees
-        pause(1000);
-        call("", "first clockwise turn on island");
-        pause(1000);
+        call("", "RedCloseRight");
         twirl(0.5, 500);
-        pause(1000);
-        call("", "driving straight off island");
-        pause(1000);
+
         this.drive(0.5, 0, 1000);
-        pause(1000);
-        //call("", "Strafing toward blue");
-        //strafe(true, 1000);
-        //pause(1000);
-        call("", "second clockwise turn toward box");
-        pause(1000);
-        twirl(0.5, 1600);
-        pause(1000);
-        call("", "driving straight to box");
-        pause(1000);
-        this.drive(0.2, 0, 1800);
-        pause(1000);
+
+        twirl(0.5, 1300);
+
+        this.drive(0.2, 0, 1500);
+
+        twirl(0.5, 200);
+
+        this.drive(0.2, 0, 400);
+
     }
+
+
+
 
     private void grabBlock() {
         // hold the preloaded block' move motors for 1 second
@@ -202,30 +336,33 @@ public class Autotamouse {
         totBot.freezeHands();
     }
 
+    /*
+        Lower the eyestalk, see what the color sensor sees, knock off the jewel.
+     */
     private void knockingOffJewel() {
         // lower the eyestalk inbetween the jewels
         totBot.lowerEyestalk();
         // wait for a second to read the color
         pause(1000);
-        int color = totBot.getEyestalkColor();
+        TotBot.Color color = totBot.getEyestalkColor();
         pause(1000);
 
         double power;
-        if(this.red == true && color == TotBot.COLOR_RED) {
+        if(this.red == true && color == TotBot.Color.RED) {
             this.call("", "Looking at red; turning clockwise");
             // turn clockwise
             power = 0.4;
         }
-        else if(this.red == true && color == TotBot.COLOR_BLUE){
+        else if(this.red == true && color == TotBot.Color.BLUE){
             this.call("", "Looking at blue; turning counter");
             // turn counter-clockwise
             power = -0.4;
         }
-        else if(this.red == false && color == TotBot.COLOR_BLUE){
+        else if(this.red == false && color == TotBot.Color.BLUE){
             this.call("", "Looking at blue; turning clockwise");
             power = 0.4;
         }
-        else if(this.red == false && color == TotBot.COLOR_RED){
+        else if(this.red == false && color == TotBot.Color.RED){
             this.call("", "Looking at red; turning counter");
             power = -0.4;
         }
@@ -248,9 +385,12 @@ public class Autotamouse {
         twirl(-power, 500);
     }
 
-    private String getPictograph() {
+    /*
+        return what the camera sees
+     */
+    private RelicRecoveryVuMark getPictograph() {
         // set the mark for later
-        String mark = "Unknown";
+        RelicRecoveryVuMark mark = RelicRecoveryVuMark.UNKNOWN;
         twirl(-0.3, 300);
         ElapsedTime timer = new ElapsedTime();
         while(timer.milliseconds() < 1500) {
@@ -260,6 +400,9 @@ public class Autotamouse {
         return mark;
     }
 
+    /*
+        do nothing for this number of milliseconds
+     */
     private void pause (double milliseconds) {
         ElapsedTime timer = new ElapsedTime();
         while(timer.milliseconds() < milliseconds) {
@@ -283,6 +426,10 @@ public class Autotamouse {
         pause(time);
         totBot.drive(0,0,0,0);
     }
+
+    /*
+        drive sideways.
+     */
     private void strafe (boolean left, double time) {
 
         int direction = 1;
@@ -298,6 +445,10 @@ public class Autotamouse {
         totBot.drive(0, 0, 0, 0);
     }
 
+    /*
+        positive power values will turn clockwise
+        time to run the motors (ms)
+     */
     private void twirl (double power, double time){
         double frontLeft = power;
         double frontRight = -power;
@@ -312,8 +463,8 @@ public class Autotamouse {
 
     }
     public void call(String caption, String message) {
-        telemetry.addData(caption, message);
-        telemetry.update();
+        this.linearOpMode.telemetry.addData(caption, message);
+        this.linearOpMode.telemetry.update();
     }
 
 
