@@ -110,7 +110,7 @@ public class Autotamouse {
         }
 
 
-
+        this.openHands();
 
 
         /*
@@ -456,9 +456,11 @@ public class Autotamouse {
         double rearRight = -power;
 
         totBot.drive(frontLeft, frontRight, rearLeft, rearRight);
+        //totBot.moveHands(true, 0.3);
         pause(time);
 
         totBot.drive(0, 0, 0, 0);
+        //totBot.freezeHands();
 
 
     }

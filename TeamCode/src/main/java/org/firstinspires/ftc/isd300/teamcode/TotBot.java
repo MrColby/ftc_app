@@ -104,6 +104,8 @@ public class TotBot {
            rearLeft = rearLeft / greatest;
            rearRight /= greatest;
        }
+        
+
        this.wheelFrontRightMotor.setPower(frontRight);
        this.wheelFrontLeftMotor.setPower(frontLeft);
        this.wheelBackRightMotor.setPower(rearRight);
